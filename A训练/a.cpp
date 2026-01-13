@@ -20,7 +20,6 @@ int fpow(int a,int b){
 }
 
 void solve(){
-    int n; cin >> n;
 
 }
 

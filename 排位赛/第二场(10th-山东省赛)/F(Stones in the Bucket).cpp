@@ -11,7 +11,6 @@ void fff(){
         cin >> a[i];
         sum += a[i];
     }
-    sort(a.begin()+1,a.end());
     int ans = 0;
     int v = sum / n;
     for(int i = 1; i <= n; i++){

@@ -18,11 +18,9 @@ int fpow(int a,int b){
     }
     return res % mod;
 }
-
 struct node{
     int a,b;
 };
-
 void solve(){
     int n,k; cin >> n >> k;
     if(n == k){
@@ -36,14 +34,8 @@ void solve(){
     bool ok = 0;
     queue<pii> q;
     q.push({n, 0}); 
-
-
-
     map<int, int> mp;
-
     mp[n] = 1;
-
-
     while(q.size()){
         auto [x, cnt] = q.front();
         q.pop();
@@ -54,12 +46,10 @@ void solve(){
             cout << cnt + 1 << endl;
             break; 
         }
-
         if(s1 > k && mp[s1] == 0){
             mp[s1] = 1;
             q.push({s1, cnt + 1});
         }
-
         if(s2 > k && mp[s2] == 0){
             mp[s2] = 1;
             q.push({s2, cnt + 1});

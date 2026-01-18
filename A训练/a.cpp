@@ -8,10 +8,9 @@ using namespace std;
 #define se second
 #define endl '\n'
 double pi = acos(-1);
-const int N = 1e6, inf = 1e18 + 5;
-int qpow(int a,int b,int mod){
+const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+int fpow(int a,int b){
     int res = 1;
-    a %= mod;
     while(b){
         if(b&1) res = res * a % mod;
         a = a * a % mod;
@@ -19,50 +18,16 @@ int qpow(int a,int b,int mod){
     }
     return res % mod;
 }
+
 void solve(){
-    string s;cin >> s;
-    int n = s.size();
-    vector<int> pl, pr;
-    for(int i = 0; i < n; i++){
-        if(s[i] == 'L') pl.pb(i);
-        else pr.pb(i);        
-    }
-    int q; cin >> q;
-    while(q--){
-        string t; cin >> t;
-        int m = t.size();        
-        if((s[0] == 'L' && t[0] == 'R') || (s.back() == 'R' && t.back() == 'L')){
-            cout << "NO" << endl;
-            continue;
-        }
-        bool ok = true;
-        int id = -1;
-        for(char c : t){
-            if(c == 'L'){
-                int idx = upper_bound(pl.begin(), pl.end(), id) - pl.begin();
-                if(idx == pl.size()){
-                    ok = false;
-                    break;
-                }
-                id = pl[idx];
-            }else{ 
-                int idx = upper_bound(pr.begin(), pr.end(), id) - pr.begin();
-                if(idx == pr.size()) {
-                    ok = false;
-                    break;
-                }
-                id = pr[idx];
-            }
-        }
-        if(ok) cout << "YES" << endl;
-        else cout << "NO" << endl;
-    }   
+
 }
+
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);
     int T = 1;
-    cin >> T;
+    //cin >> T;
     while(T--)
         solve();
     return 0;

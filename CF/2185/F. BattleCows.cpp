@@ -18,6 +18,12 @@ int fpow(int a,int b){
     }
     return res % mod;
 }
+/*
+    有题意可知这是一个满二叉树，还有区间异或和，单点修改 -> 线段树
+    我们要考虑这一个叶子节点到根节点的那条路径
+    他的比较对象是兄弟节点，看情况是否累加对方的"栈大小"
+    记得修改完值查询后再改回去
+*/
 struct SegTree {
     vector<int> tree;
     SegTree(int n){

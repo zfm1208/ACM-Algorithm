@@ -9,7 +9,15 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
+int fpow(int a,int b){
+    int res = 1;
+    while(b){
+        if(b&1) res = res * a % mod;
+        a = a * a % mod;
+        b >>= 1;
+    }
+    return res % mod;
+}
 struct SegTree {
     struct Node {
         int l, r;      
@@ -84,13 +92,10 @@ struct SegTree {
         int mid = (tr[i].l + tr[i].r) >> 1;
         if (r <= mid) return query(i << 1, l, r);
         if (l > mid)  return query(i << 1 | 1, l, r);
-        Node leftRes = query(i << 1, l, r);
-        Node rightRes = query(i << 1 | 1, l, r);
         Node res;
-        res.l = tr[i].l; res.r = tr[i].r;
-        res.sum = leftRes.sum + rightRes.sum;
-        res.mx = max(leftRes.mx, rightRes.mx);
-        res.mn = min(leftRes.mn, rightRes.mn);
+        res.sum = query(i << 1, l, r).sum + query(i << 1 | 1, l, r).sum;
+        res.mx = max(query(i << 1, l, r).mx, query(i << 1 | 1, l, r).mx);
+        res.mn = min(query(i << 1, l, r).mn, query(i << 1 | 1, l, r).mn);
         return res;
     }
 };
@@ -108,10 +113,10 @@ void solve(){
             cin >> l >> r >> k;
             st.update(1, l, r, k);
         } else {
-            // 区间查询 
+            // 区间查询
             int l, r; cin >> l >> r;
             auto res = st.query(1, l, r);
-            cout << res.sum << endl;
+            cout << "Sum: " << res.sum << " Max: " << res.mx << endl;
         }
     }
 }

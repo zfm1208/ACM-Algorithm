@@ -8,7 +8,7 @@ using namespace std;
 #define se second
 #define endl '\n'
 double pi = acos(-1);
-const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+const int N = 2e5, mod = 1e9+7, inf = 1e18 + 5;
 int fpow(int a,int b){
     int res = 1;
     while(b){
@@ -18,7 +18,6 @@ int fpow(int a,int b){
     }
     return res % mod;
 }
-
 void solve(){
     int n,k; cin >> n >> k;
     vector<int> a(n+1),b(n+1);
@@ -28,30 +27,31 @@ void solve(){
     sort(b.begin()+1,b.end(),greater<int>());
     vector<vector<vector<int>>> dp(2*n+1,vector<vector<int>>(k+1,vector<int>(k+1,-inf)));
     // dp[u][i][j]:第i回合,A选了i个,B选了j个时的daan(sumA-sumB)
-    auto dfs = [&] (auto& self, int u, int i, int j) -> int {
+    auto dfs = [&] (auto&self, int u, int i, int j) -> int {
         if(i == k && j == k) return 0;
         if(u == 2 * n) return 0;
         if(dp[u][i][j] != -inf) return dp[u][i][j];
         int used_A = i + (u/2 - j);
         int used_B = j + ((u+1)/2 - i);
         int res;
-        if(u%2 == 0){ // A操作
+        if(u%2 == 0){ // A回合
             res = -inf;
             if(i < k && used_A < n){
-                res = max(res, self(self, u+1, i+1, j) + a[used_A + 1]);
+                res  = max(res, self(self,u+1,i+1,j) + a[used_A + 1]);
             }
-            res = max(res, self(self, u+1, i, j));
-        } else{
+            res = max(res,self(self,u+1,i,j));
+        }else{
             res = inf;
             if(j < k && used_B < n){
-                res = min(res, self(self, u+1, i, j+1) - b[used_B + 1]);
+                res = min(res, self(self, u + 1, i, j + 1) - b[used_B + 1]); 
             }
-            res = min(res, self(self, u+1, i, j));
+            res = min(res, self(self, u + 1, i, j));
         }
         return dp[u][i][j] = res;
     };
 
-    cout << dfs(dfs,0,0,0) << endl;
+    int ans = dfs(dfs,0,0,0);
+    cout << ans << endl;
 }
 
 signed main(){

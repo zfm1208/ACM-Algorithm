@@ -20,14 +20,38 @@ int fpow(int a,int b){
 }
 
 void solve(){
-
+    int n,x; cin >> n >> x;
+    vector<array<int,3>> arr(n);
+    for(int i = 0; i < n; i++){
+        int a,b,c; cin >> a >> b >> c;
+        arr[i] = {a,b,c};
+    }
+    int sum = 0;
+    for(auto [a,b,c] : arr){
+        sum += (b-1) * a;
+    }
+    if(sum >= x){
+        cout << 0 << endl;
+        return;
+    }
+    int mx = -inf;
+    for(auto [a,b,c] : arr){
+        mx = max(mx, a-c + (b-1) * a);
+    }
+    if(mx <= 0){
+        cout << -1 << endl;
+        return;
+    }
+    // int ans = ceil(double(x - sum) / (double)mx);
+    int ans = (x - sum + mx - 1) / mx;
+    cout << ans << endl;
 }
 
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);
     int T = 1;
-    //cin >> T;
+    cin >> T;
     while(T--)
         solve();
     return 0;

@@ -20,101 +20,106 @@ int fpow(int a,int b){
     return res % mod;
 }
 /*
-    1.注意到询问次数：n/2 + 1
-    所以每次询问时如果得到0的回答，我们要排除至少2个点才行
-    如果得到1的回答，我们直接二分就行了
+    【核心思路：BFS 层序消消乐】
+    
+    1. 关键约束：询问次数限制为 n/2 + 1
+       这意味着我们每一次查询 "? u v"，必须达到以下两个效果之一：
+       (A) 排除掉 2 个点（u 和 v 都不可能是答案）。
+       (B) 直接找到答案。
 
-    2.找树上面的路径-什么路径好找？-怎样拆一个树最快？
-    -拓扑排序-选树的叶子（如果询问两个叶子，回答是0，那么这两个路径上的所有点都没用了）
+    2. 为什么放弃拓扑排序/剥叶子？
+       剥叶子（拓扑排序）在星形图等特殊结构下，难以凑齐“一对”不经过中心点的路径，导致退化成单点查询，查询次数爆炸。
 
-    3.一旦某次询问回答1，那么说明u,v之间的路径有合法的点，直接二分查找即可
+    3. 新策略：BFS 层序遍历（从根向下，成对检查）
+       我们维护一个队列，按层序遍历树。每次从队头取出两个节点 u, v 进行询问。
 
-    <1>: 删不可能的点（不断缩小问题的规模）
-        1.把度数为1的叶子放进集合
-        2.每次从集合中选取两个叶子u,v（最好在一个联通分量中）
-        3.删节点，会有新的度数为1的叶子，加入集合，直到询问得到1
+       <情况 1>: query(u, v) == 0
+       说明隐藏路径既不经过 u，也不经过 v。
+       -> 结论：u 和 v 都可以排除（淘汰）。
+       -> 操作：将 u 和 v 的子节点加入队列（下一层待查），u, v 丢弃。
+       -> 收益：消耗 1 次询问，排除 2 个点。完美符合限制。
 
-    <2>: 二分查找
+       <情况 2>: query(u, v) == 1
+       说明隐藏路径与 u-v 的路径有交点。
+       -> 核心逻辑：因为我们是 BFS 从上往下查的，u 和 v 的祖先们已经在之前的轮次中被排除（查询结果为0）。
+          如果路径相交，交点不可能在祖先上（否则祖先那轮就该返回 1 了）。
+          所以，交点必然是路径目前的“最低端点”，也就是 u 或者 v 本身。
+       -> 操作：直接检查 u ("? u u")。是 1 则输出 u，否则输出 v。
 
+    4. 总结
+       这其实不是在“找路径”，而是在“批量体检”。
+       每次拉两个人出来查，没病就淘汰换下一批（孩子），有病肯定就在这两人身上。
 */
 
 void solve(){
     int n; cin >> n;
     vector<vector<int>> adj(n+1);
-    vector<int> du(n+1),vis(n+1);
     for(int i = 1; i < n; i++){
         int u, v; cin >> u >> v;
         adj[u].pb(v);
         adj[v].pb(u);
-        du[u]++;
-        du[v]++;
+
     }
-    vector<int> yz;
-    for(int i = 1; i <= n; i++){
-        if(du[i] == 1){
-            yz.pb(i);
-        }
-    }
-    vector<int> path; // 寻找同一个联通分量里面的其他叶子
-    auto dfs = [&] (auto& self, int u, int fa, int st) -> int {
-        path.pb(u);
-        if(u != st && du[u] == 1) return u;
-        for(int v: adj[u]){
-            if(v == fa || vis[v]) continue;
-            int ans = self(self,v,u,st);
-            if(ans != -1) return ans;
-        }
-        path.pop_back();
-        return -1;
-    };
     auto query = [&] (int u, int v) -> int {
         cout << "? " << u << " " << v << endl;
         int res; cin >> res;
         return res;
-    };
-    int i = 0;
-    while(i < yz.size()){
-        int u = yz[i];
-        i++;
-        if(vis[u]) continue;
-        path.clear();
-        int v = dfs(dfs, u, -1, u);
-        if(v == -1) {
-            if(query(u, u) == 1){
+    };  
+    vector<int> vis(n+1);
+    queue<int> q;
+    q.push(1);
+    while(!q.empty()){
+        int u = q.front(); q.pop();
+        vis[u] = 1;
+        if(q.empty()){
+            for(auto v: adj[u]){
+                if(!vis[v]) q.push(v);
+            }
+            if(q.empty()) {
                 cout << "! " << u << endl;
                 return;
-            }else{
-                vis[u] = 1;
-                continue;
             }
-        }
-        int res = query(u, v);
-        if(res == 1){
-            int l = 0, r = path.size() - 1;
-            int ans = 0;
-            while(l <= r){
-                int mid = (l + r) >> 1;
-                if(query(path[l], path[mid])){
-                    ans = mid;
-                    r = mid - 1;
-                } else{
-                    l = mid + 1;
+            int v = q.front(); q.pop();
+            vis[v] = 1;
+
+            int res = query(u,v);
+            if(res == 1){
+                if(query(u,u)) {
+                    cout << "! " << u << endl;
+                    return;
+                }else{
+                    cout << "! " << v << endl;
+                    return;   
+                }
+            }else{
+                for(auto nv: adj[v]){
+                    if(!vis[nv]) q.push(nv);
                 }
             }
-            cout << "! " << path[ans] << endl;
-            return;
-        } else{
-            for(auto u : path){
-                vis[u] = 1; 
-                for(auto v : adj[u]){
-                    if(!vis[v]){
-                        du[v]--;
-                        if(du[v] == 1) yz.pb(v);
-                    }
+        }else{
+            int v = q.front(); q.pop();
+            vis[v] = 1;
+
+            int res = query(u,v);
+            if(res == 1){
+                if(query(u,u)) {
+                    cout << "! " << u << endl;
+                    return;
+                }else{
+                    cout << "! " << v << endl;
+                    return;   
+                }
+            }else{
+                for(auto nu: adj[u]){
+                    if(!vis[nu]) q.push(nu);
+                }
+                for(auto nv: adj[v]){
+                    if(!vis[nv]) q.push(nv);
                 }
             }
         }
     }
+    
 }
 
 signed main(){

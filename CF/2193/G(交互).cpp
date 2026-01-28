@@ -51,6 +51,9 @@ int fpow(int a,int b){
        每次拉两个人出来查，没病就淘汰换下一批（孩子），有病肯定就在这两人身上。
 */
 
+/*
+    从根节点出发
+*/
 void solve(){
     int n; cin >> n;
     vector<vector<int>> adj(n+1);

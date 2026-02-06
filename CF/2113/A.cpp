@@ -20,14 +20,27 @@ int fpow(int a,int b){
 }
 
 void solve(){
-
+    int k,a,b,x,y; cin >> k >> a >> b >> x >> y;
+    if(x > y){
+        swap(a,b);
+        swap(x,y);
+    }
+    int ans = 0;
+    if(k >= a){
+        ans += (k - a) / x + 1;
+        k -= ans * x;
+    }
+    if(k >= b){
+        ans += (k - b) / y + 1;
+    }
+    cout << ans << endl;
 }
 
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);
     int T = 1;
-    //cin >> T;
+    cin >> T;
     while(T--)
         solve();
     return 0;

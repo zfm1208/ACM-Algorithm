@@ -20,7 +20,7 @@ int fpow(int a,int b){
 }
 
 void solve(){
-    
+
 }
 
 signed main(){

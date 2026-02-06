@@ -52,10 +52,6 @@ void solve(){
     for(int i = 1; i <= n; i++){
         cin >> a[i];
     }
-    if(n == 1){
-        cout << -1 << endl;
-        return;
-    }
     if(is_sorted(a.begin()+1,a.end())){
         cout << -1 << endl;
         return;
@@ -70,7 +66,6 @@ void solve(){
         }
     }
     cout << ans << endl;
-
 }
 
 signed main(){

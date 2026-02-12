@@ -19,40 +19,23 @@ int fpow(int a,int b){
     return res % mod;
 }
 /*
-    p : q = 2 : 3
-    2 3  1
-    4 6  2
-    6 9  3
-    8 12  4
-    10 15  5
+    主要考虑 Bob 如何获胜,在 Alice 选择最优策略的情况下,她一定是将 p / q 尽可能远离2 / 3,
+    因此 Bob 就只能执行与 Alice 相反的操作,即如果 Alice 选择减小 p ,那 Bob 就一定是选择减少 q,反之亦然.
 
-    2 3 = 0.66
-    4 5 = 0.8    4 7 = 0.57
-    3 4 = 0.75   3 6 = 0.5
-    2 3 = 0.66
-
-    4 / 7  < 2 / 3
-
+    因此,我们只需确定对任意合法的 x, (p-x) / (q-x) 是否有可能等于 2 / 3.
+    稍微推导一下就会发现这等价于  3(p-x) = 2*(q-x) 
+    x = 3p-2q
+    由 p > 0 && q > 1可知
+    必须 p-x > 0  且 q-x > 1
+    x < p && x < q-1
+    综上可得  x < min(p,q-1)
+    0 <= x <= min(p,q-1)
+    判断一下 x 的范围即可
 */
 void solve(){
     int p,q; cin >> p >> q;
-    if(p == q){
-        cout << "Alice" << endl;
-        return;
-    }
-    if(p * 3 < 2 * q){
-        cout << "Alice" << endl;
-        return;
-    }
-    if(p * 3 == 2 * q){
-        cout << "Bob" << endl;
-        return;
-    }
-    // p/q > 2/3
-    int gcd = __gcd(p,q);
-    p /= gcd;
-    q /= gcd;
-    if(q > p){
+    int x = 3*p - 2*q;
+    if(0 <= x && x <= min(p,q-1)){
         cout << "Bob" << endl;
     }else{
         cout << "Alice" << endl;

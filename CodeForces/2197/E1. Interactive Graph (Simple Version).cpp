@@ -60,7 +60,7 @@ void solve(){
             int v = path[1];
             ans.pb({u,v});
             int jump = 0;
-            for(int k = 30; k >= 0; k--){
+            for(int k = 29; k >= 0; k--){
                 int tar = now + jump + (1LL << k);
                 vector<int> tp = ask(tar);
                 if(tp.size() >= 2 && tp[0] == u && tp[1] == v){

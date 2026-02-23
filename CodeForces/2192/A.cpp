@@ -20,14 +20,28 @@ int fpow(int a,int b){
 }
 
 void solve(){
-
+    int n; cin >> n;
+    string s; cin >> s;
+    int cnt = 0;
+    for(int i = 0; i < n; i++){
+        if(s[i] != s[(i+1) % n]) cnt++;
+    }
+    if(cnt == 0){
+        cout << 1 << endl;
+    }else {
+        if(cnt == n){
+            cout << n << endl;
+        }else{
+            cout << cnt+1 << endl;
+        }
+    }
 }
 
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);
     int T = 1;
-    //cin >> T;
+    cin >> T;
     while(T--)
         solve();
     return 0;

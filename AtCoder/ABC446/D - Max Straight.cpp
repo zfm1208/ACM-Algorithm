@@ -18,9 +18,16 @@ int fpow(int a,int b){
     }
     return res % mod;
 }
-
 void solve(){
-
+    int n; cin >> n;
+    map<int,int> dp;
+    int ans = 0;
+    for(int i = 1;i <= n; i++){
+        int x; cin >> x;
+        dp[x] = dp[x-1] + 1;
+        ans = max(ans, dp[x]);
+    }
+    cout << ans << endl;
 }
 
 signed main(){

@@ -20,7 +20,20 @@ int fpow(int a,int b){
 }
 
 void solve(){
-
+    int n,m; cin >> n >> m;
+    vector<int> vis(m+1);
+    for(int i = 1; i <= n; i++){
+        int t; cin >> t;
+        int cost = 0;
+        for(int j = 0; j < t; j++){
+            int x; cin >> x;
+            if(cost == 0 && !vis[x]){
+                cost = x;
+                vis[x] = 1;
+            }
+        }
+        cout << cost << endl;
+    }
 }
 
 signed main(){

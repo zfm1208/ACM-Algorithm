@@ -18,30 +18,24 @@ int fpow(int a,int b){
     }
     return res % mod;
 }
-/*
-    这一题较于C1,求的是所有连续子段的贡献和
-    双指针枚举子段再套C1的代码时间复杂度接近O(n^3) 肯定超时
 
-    对于这种区间问题，我们可以采用固定一段，枚举另一端的做法
-    这一题中，我们固定左端点i,看a[i]的假如,会对后面所有的子段产生多少的增量贡献
-    res:固定当前左端点i，所有这n-i+1个子段的f值之和
-*/
 void solve(){
     int n; cin >> n;
     vector<int> a(n+1);
-    rep(i,1,n) cin >> a[i];
-    vector<pii> st;
-    int ans = 0,res = 0;
-    for(int i = n; i >= 1; i--){
-        while(!st.empty() && st.back().fi == a[i]+1){
-            res -= st.back().se;
-            st.pop_back();
-        }
-        st.push_back({a[i], n-i+1});
-        res += n-i+1;
-        ans += res;
+    for(int i = 1; i <= n; i++){
+        cin >> a[i];
     }
-    cout << ans << endl;
+    sort(a.begin()+1,a.end());
+    int cnt = 0;
+    for(int i = n; i >= 1; i--){
+        if(a[i] == a[n]){
+            cnt++;
+        }else{
+            cout << cnt << endl;
+            return;
+        }
+    }
+    cout << cnt << endl;
 }
 
 signed main(){

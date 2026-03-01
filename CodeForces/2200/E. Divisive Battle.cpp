@@ -36,7 +36,6 @@ void solve(){
             if(x % i == 0){
                 if(ans == -1) ans = i;
                 else  return -9090;
-                
                 while(x % i == 0) x/=i;
             }
         }

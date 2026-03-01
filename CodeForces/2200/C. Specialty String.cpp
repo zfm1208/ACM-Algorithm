@@ -31,35 +31,6 @@ void solve(){
     }
     cout << (st.empty() ? "YES" : "NO") << endl;
 }
-void solve1(){
-    int n; cin >> n;
-    string s; cin >> s;
-    s = ' ' + s;
-    bool op = 1;
-    while(op&1){
-        op = 0;
-        int l = -1;
-        for(int i = 1; i <= n; i++){
-            if(s[i] != '*'){
-                if(l != -1 && s[i] == s[l]){
-                    s[i] = s[l] = '*';
-                    op = 1;
-                    l = -1;
-                }else{
-                    l = i;
-                }
-            }
-        }
-    }
-    for(int i = 1; i <= n; i++){
-        if(s[i] != '*'){
-            cout << "NO" << endl;
-            return;
-        }
-    }
-    cout << "YES" << endl;
-}
-
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);

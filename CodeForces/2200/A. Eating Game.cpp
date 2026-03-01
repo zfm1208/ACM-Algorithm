@@ -18,7 +18,9 @@ int fpow(int a,int b){
     }
     return res % mod;
 }
-
+/*
+    求最多元素的个数
+*/
 void solve(){
     int n; cin >> n;
     vector<int> a(n+1);

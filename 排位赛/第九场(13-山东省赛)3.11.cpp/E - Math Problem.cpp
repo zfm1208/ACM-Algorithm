@@ -24,7 +24,6 @@ void solve(){
         temp /= k;
         ans+=b;
     }
-    int mn = ans;
     auto check = [&] (i128 l,i128 r) -> bool {
         i128 op = r / m * m;
         return op >= l;
@@ -35,14 +34,12 @@ void solve(){
         i128 nn = n;
         nn /= qwq;
         if(nn <= 0) break;
-        i128 L,R;
         i128 ovo = 1;
         for(int j = 0; j <= 128; j++){
-            i128 cost1 = 0;
-            L = nn * ovo;
-            R = (nn+1) * ovo - 1;
+            i128 L = nn * ovo;
+            i128 R = (nn+1) * ovo - 1;
             if(check(L,R)){
-                cost1 = j * a;
+                i128 cost1 = j * a;
                 ans = min((i128)ans, (i128)(cost + cost1)); 
                 break;
             }
@@ -50,7 +47,7 @@ void solve(){
         }
         qwq *= k;  
     }
-    cout << min((int)ans,(int)mn) << endl;
+    cout << (int)ans << endl;
 }
 
 signed main(){

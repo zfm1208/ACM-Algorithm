@@ -15,7 +15,8 @@ void solve(){
     vector<pii> a(n+1);
     rep(i,1,n) cin >> a[i].fi, a[i].se = i;
     sort(a.begin()+1,a.end());
-    while(q--){
+    while(q--)
+    {
         int k; cin >> k;
         vector<int> b(k+1);
         rep(i,1,k) cin >> b[i];

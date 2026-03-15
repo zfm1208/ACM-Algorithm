@@ -18,18 +18,7 @@ int fpow(int a,int b){
     }
     return res % mod;
 }
-/*
-      7 6 5 4 3 2 1
-      1 1 1 1 1 1 1 
-        1 1 1 1 1 1
-        1 1 1 1 1 1
-            1 1 1 1
-          1 1 1 1 1
-              1 1 1
 
-      1 3 4 5  6  6  6
-
-*/
 void solve(){
     int n; cin >> n;
     int mx = 0;

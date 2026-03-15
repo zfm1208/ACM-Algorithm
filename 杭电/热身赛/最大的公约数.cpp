@@ -11,7 +11,20 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    
+    int n; cin >> n;
+    vector<int> a;
+    for(int i = 2; i * i <= n; i++){
+        if(n % i == 0){
+            a.pb(i);
+            if(i*i != n)   a.pb(n/i);
+        }
+    }
+    int ans = 1;
+    for(auto x: a){
+        if(x != n-x)
+        ans = max(ans,__gcd(x,n-x));
+    }
+    cout << ans << endl;
 }
 
 signed main(){

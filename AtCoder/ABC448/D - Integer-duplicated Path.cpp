@@ -19,13 +19,14 @@ void solve(){
     for(int i = 1; i <= n; i++){
         a[i] = (lower_bound(val.begin(),val.end(),a[i]) - val.begin()) + 1;
     }
+    vector<int> ans(n+1);
     vector<vector<int>> adj(n+1);
     for(int i = 1; i < n; i++){
         int u,v; cin >> u >> v;
         adj[u].pb(v);
         adj[v].pb(u);
     }
-    vector<int> ans(n+1);
+    
     int cnt = 0;
     vector<int> mp(n+1);
     auto dfs = [&](auto& self, int u, int fa) -> void {
@@ -38,6 +39,7 @@ void solve(){
         mp[a[u]]--;
     };
     dfs(dfs,1,0);
+
     rep(i,1,n) cout << (ans[i] == 1 ? "Yes" : "No") << endl;
 }
 

@@ -40,8 +40,7 @@ void solve(){
         adj[v].pb(u);
     }
     int k; cin >> k;
-    vector<int> tar(k);
-    vector<int> vis(n);
+    vector<int> tar(k),vis(n);
     for(auto &x : tar){
         cin >> x;
         vis[x] = 1;

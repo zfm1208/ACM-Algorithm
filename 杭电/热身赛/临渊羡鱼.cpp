@@ -11,7 +11,15 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    
+    int n; cin >> n;
+    int mn = inf;
+    int mx = -1;
+    for(int i = 1; i <= n; i++){
+        int x; cin >> x;
+        mx = max(mx,x);
+        mn = min(mn,x);
+    }
+    cout << mx-mn+1 << endl;
 }
 
 signed main(){

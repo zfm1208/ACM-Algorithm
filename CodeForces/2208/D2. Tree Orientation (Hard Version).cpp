@@ -2,13 +2,12 @@
 using namespace std;
 #define rep(i, l, r) for (int i = l; i <= r; i++)
 #define pii pair<int, int>
-#define int long long
+// #define int long long
 #define pb push_back
 #define fi first
 #define se second
 #define endl '\n'
-double pi = acos(-1);
-const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+
 struct DSU {
     vector<int> fa;
     DSU(int n) {
@@ -18,43 +17,55 @@ struct DSU {
     int find(int x){
         return x == fa[x] ? x : fa[x] = find(fa[x]);
     }
-    
     void link(int x, int y){
-        int fx = find(x);
-        int fy = find(y);
-        if(fx != fy){
-            fa[fx] = fy;
-        }
+        int fx = find(x), fy = find(y);
+        if(fx != fy) fa[fx] = fy;
     }
 };
-
 void solve(){
     int n; cin >> n;
-    vector<string> s(n+1);
+    vector<string> s(n + 1);
     for(int i = 1; i <= n; i++){
         string ss; cin >> ss;
-        s[i] = ' ' + ss;
+        s[i] = " " + ss;
     }
+    vector<int> siz(n+1);
+    for(int u = 1; u <= n; u++){
+        if(s[u][u] == '0'){
+            cout << "NO" << endl;
+            return;
+        }
+        for(int v = 1; v <= n; v++){
+            if(u != v && s[u][v] == '1'){
+                siz[u]++;
+            }
+        }
+    }
+    vector<int> P(n);
+    iota(P.begin(), P.end(), 1);
+    sort(P.begin(), P.end(), [&](int a, int b) {
+        return siz[a] > siz[b]; 
+    });
+
     vector<pii> ans;
     for(int u = 1; u <= n; u++){
-        for(int v = 1; v <= n; v++){
-            if(u == v && s[u][v] == '0'){
+        vector<int> vis(n + 1);
+        for(int v : P){
+            if(u == v || s[u][v] == '0') continue;
+            if(vis[v]) continue;
+            ans.pb({u, v});
+            if(ans.size() >= n) {
                 cout << "NO" << endl;
                 return;
             }
-            if(u == v || s[u][v] == '0') continue;
-            bool ok = 0;
-            for(int w = 1; w <= n; w++){
-                if(w == u || w == v) continue;
-                if(s[u][w] == '1' && s[w][v] == '1'){
-                    ok = 1;
-                    break;
+            for(int x = 1; x <= n; x++){
+                if(s[v][x] == '1'){
+                    vis[x] = 1;
                 }
             }
-            if(!ok) ans.pb({u,v});
         }
     }
-    if(ans.size() != n-1) {
+    if(ans.size() != n - 1) {
         cout << "NO" << endl;
         return;
     }
@@ -70,35 +81,21 @@ void solve(){
         cout << "NO" << endl;
         return;
     }
-    vector<vector<int>> adj(n+1);
-    for(auto [u,v] :  ans){
+    vector<vector<int>> adj(n + 1);
+    for(auto [u, v] : ans) {
         adj[u].pb(v);
     }
     for(int u = 1; u <= n; u++){
-        vector<int> vis(n+1);
-        // queue<int> q;
-        // q.push(u);
-        // vis[u] = 1;
-        // while(!q.empty()){
-        //     int cur = q.front();
-        //     q.pop();
-        //     for(int nex : adj[cur]){
-        //         if(!vis[nex]) {
-        //             vis[nex] = 1;
-        //             q.push(nex);
-        //         }
-        //     }
-        // }
-        auto dfs = [&] (auto& self, int i) -> void {
-            vis[i] = 1;
-            for(int v: adj[i]){
-                if(vis[v]) continue;
-                self(self,v);
+        vector<int> vis1(n + 1);
+        auto dfs = [&](auto self, int i) -> void {
+            vis1[i] = 1;
+            for(int v : adj[i]){
+                if(!vis1[v]) self(self, v);
             }
         };
-        dfs(dfs,u);
-        for(int i = 1; i <= n; i++){
-            if(vis[i] != s[u][i] - '0'){
+        dfs(dfs, u);
+        for(int j = 1; j <= n; j++){
+            if((vis1[j] == 1) != (s[u][j] == '1')){
                 cout << "NO" << endl;
                 return;
             }
@@ -115,7 +112,6 @@ signed main(){
     cin.tie(0);cout.tie(0);
     int T = 1;
     cin >> T;
-    while(T--)
-        solve();
+    while(T--) solve();
     return 0;
 }

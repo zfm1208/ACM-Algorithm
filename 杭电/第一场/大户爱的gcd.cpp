@@ -11,7 +11,21 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    
+    int n,m,q; cin >> n >> m >> q;
+    vector<int> a(n+1,1);
+    for(int i = 1; i <= m; i++){
+        int x,y,g; cin >> x >> y >> g;
+        if(__gcd(a[x],g) != g) {
+            a[x] *= (g / __gcd(a[x],g));
+        }
+        if(__gcd(a[y],g) != g) {
+            a[y] *= (g / __gcd(a[y],g));
+        }
+    }
+    while(q--){
+        int x,y; cin >> x >> y;
+        cout << __gcd(a[x],a[y]) << endl;
+    }
 }
 
 signed main(){

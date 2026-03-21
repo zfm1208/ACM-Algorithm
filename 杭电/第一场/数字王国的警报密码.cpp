@@ -36,8 +36,6 @@ void solve(){
     }
     int l = 1, r = n;
     int pos = 1;
-    // cout << "debug: !!!!!" << endl;
-    // return;
     while(l <= r){
         int mid = (l + r) / 2;
         if(mid * (mid + 1) / 2 < k){
@@ -45,32 +43,21 @@ void solve(){
             l = mid + 1;
         }else r = mid - 1;
     }  
-    // cout << pos << endl;
-    // return;
     if(n <= pos){
-        // cout << "n<=pos" << endl;
         for(int i = 1; i <= n; i++){
             cout << i << " \n"[i==n];
         }
     }else{
         DSU dsu(k);
         vector<int> ans(n+1),pre(n+1);
-        // (pre[i-1] + x - pre[j]) % k == 0
-        // (pre[i-1] + x) % k == pre[j] % k
         dsu.fa[0] = 1;
         for(int i = 1; i <= n; i++){
             int x = ans[i] = ans[i-1] + 1;
             int op = (pre[i-1] + x) % k;
-            // cout << "op: " << op << endl;
             int res = dsu.find(op);
-            // cout << "res: " << res << endl;
             ans[i] += (res - op + k) % k;
             pre[i] = (pre[i-1] + ans[i]) % k;
             dsu.fa[res] = dsu.find((res+1) % k);
-            // for(int j = 0; j < k; j++){
-            //     cout << j << ": " << dsu.fa[j] << "  ";
-            // }
-            // cout << endl;
         }
         rep(i,1,n) cout << ans[i] << " \n"[i==n];
     }

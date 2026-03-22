@@ -30,7 +30,7 @@ void solve(){
         return;
     }
     int now = 1;
-    int sum  = 0;
+    int sum = 0;
     map<int,int> mp;
     mp[0] = 1;
     for(int i = 1; i <= n; i++){

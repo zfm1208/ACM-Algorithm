@@ -18,7 +18,7 @@ int ask(int i, int j){
 int ans(int k){
     cout << "! " << k << endl;
     return 0; 
-}
+} 
 void solve(){
     int n; cin >> n;
     int res = 1;
@@ -26,6 +26,7 @@ void solve(){
         int op = ask(i,i+1);
         if(op == 1){
             ans(i);
+            return;
         }
     } 
     if(ask(2*n-1,1) == 1){

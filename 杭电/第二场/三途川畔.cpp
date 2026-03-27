@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define rep(i, l, r) for (int i = l; i <= r; i++)
+#define pii pair<int, int>
+#define int long long
+#define pb push_back
+#define fi first
+#define se second
+#define endl '\n'
+double pi = acos(-1);
+const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+/*
+    (n-2) * 1 + 2 + n-k + k == 2*(n-k)
+*/
+void solve(){
+    int n,k; cin  >> n >> k;
+    for(int i = 1; i <= n-2; i++){
+        cout << 1 << " ";
+    }
+    cout << 2 << " " <<  n+k << endl;
+    // int k = 16;
+    // for(int i = 1; i <= k; i++){
+    //     for(int j = 1; j <= k; j++){
+    //         for(int z = 1; z <= k; z++){
+    //             for(int m = 1; m <= k ; m++){
+    //                 if(i + j + z + m + k == m*i*j*z){
+    //                     cout << i + j + z + k + m << endl;
+    //                     cout << i << " " << j << " " << z << " " << m << endl;
+    //                 }                    
+    //             }
+
+    //         }
+    //     }
+    // }
+    
+}
+
+signed main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);cout.tie(0);
+    int T = 1;
+    cin >> T;
+    while(T--)
+        solve();
+    return 0;
+}

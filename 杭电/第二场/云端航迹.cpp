@@ -10,71 +10,64 @@ using namespace std;
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 /*
-    n = 7
-    !!i : 1  cnt: 64
-    !!i : 2  cnt: 96
-    !!i : 3  cnt: 112
-    !!i : 4  cnt: 120
-    !!i : 5  cnt: 124
-    !!i : 6  cnt: 126
-    !!i : 7  cnt: 127
+    假设当前异或和为X
+    <1>: 一开始X = 0, 先手判负
 
-    n = 6
-    !!i : 1  cnt: 32 (1 << 5)
-    !!i : 2  cnt: 48 (1 << 5) + (1 << 4)
-    !!i : 3  cnt: 56 (1 << 5) + (1 << 4) + (1 << 3)
-    !!i : 4  cnt: 60 (1 << 5) + (1 << 4) + (1 << 3) + (1 << 2)
-    !!i : 5  cnt: 62 (1 << 5) + (1 << 4) + (1 << 3) + (1 << 2) + (1 << 1)
-    !!i : 6  cnt: 63 (1 << 5) + (1 << 4) + (1 << 3) + (1 << 2) + (1 << 1) + (1 << 0)
+    <2>: 当前 X != 0, 且数字个数为 add
+    你必须拿走一个数字y, X' -> X ^ y
+    如果 X' == 0,输了
+    如果 X' != 0, 你把一个局面为： 个数为even,X != 0的局面给了下一个人
+    <3>: 当前 X != 0, 且数字个数为 even
+    你必须拿走一个数字y, X' -> X ^ y
+    要让 X ^ y == 0, 你拿走的 y == X
+    如果你所有操作都会X ^ y == 0, 那么数字堆里都是X
+    既然数字全是X, 有偶数个, 他们异或和 = 0， 与我们前提 X != 0,违背
+    所以，里面绝对有数 != X, 你只要把 != X的数拿走，就能把必败态该对面
 
-
-    n = 5
-    !!i : 1  cnt: 16
-    !!i : 2  cnt: 24
-    !!i : 3  cnt: 28
-    !!i : 4  cnt: 30
-    !!i : 5  cnt: 31
     
-    n = 4  
-    !!i : 1  cnt: 8  (1 << 3)
-    !!i : 2  cnt: 12 (1 << 3) + (1 << 2)
-    !!i : 3  cnt: 14 (1 << 3) + (1 << 2) + (1 << 1)
-    !!i : 4  cnt: 15
-*/
-int ksm(int a, int b) {
-    int res = 1;
-    // a %= mod;
-    while (b) {
-        if (b & 1) res = res * a ;
-        a = a * a;
-        b >>= 1;
-    }
-    return res;
-}
+    ! 当前数个数为even,且异或和 != 0  -> 必胜态
+    ! 当前数个数为 add,且异或和 != 0  -> 必败态
 
+    对于先手而言，怎么保证他能赢呢？
+    区间异或和 != 0， 可以用前缀和O(1)处理
+    区间长度为偶数, 可以枚举L,R, 看看(R-L+1) 是不是偶数,然后累加个数即可
+
+    但这样的时间复杂度是O(n^2) 会超时
+
+    怎么优化呢？ 正难则反
+
+    我们知道任意奇数下标 / 偶数下标 的差值都是even
+    也就是说,同奇同偶下标两两配对，都是长度为even的区间
+    我们假设 奇数下标有ji个,偶数下标有ou个
+    tot = ji*(ji-1) / 2 + ou*(ou-1) / 2
+    那么这是区间长度为偶数的区间的个数，那么怎么找区间异或和不为0的呢？
+
+    假如在偶数下标的点集中,有两个点i,j(i< j) 且pre[j] - pre[i-1] = 0
+    
+*/
 void solve(){
-    int n,k; cin >> n >> k;
-    bool ok = 0;
-    while(k > 0){
-        int op = 1;
-        while(1){
-            if(n-op >= 60 || k <= ksm(2,n-op)){
-                cout << op << " ";
-                k--;
-                n -= op;
-                if(k <= 0) {
-                    ok = 1;
-                    break;
-                }
-                break;
-            }else{
-                op++;
-                k -= ksm(2,n-op+1);
-            }
-        }
-        if(ok == 1) break;
+    int n; cin >> n;
+    vector<int> a(n+1),pre(n+1);
+    for(int i = 1; i <= n; i++){
+        cin >> a[i];
+        pre[i] = pre[i - 1] ^ a[i];
     }
-    cout << endl;
+    int add = (n+1)/2, even = n/2 + 1;
+    int tot = add * (add - 1) / 2 + even * (even - 1) / 2;
+    map<int,int> mp[2];
+    for(int i = 0; i <= n; i++){
+        mp[i%2][pre[i]]++;
+    }
+    int count = 0;
+    for(auto [x,cnt]: mp[0]){
+        count += (cnt - 1) * cnt / 2;
+    }
+    for(auto [x,cnt]: mp[1]){
+        count += (cnt - 1) * cnt / 2;
+    }
+    int ans1 = tot - count;
+    int ans2 = (n+1) * n / 2 - ans1;
+    cout << ans1 << " " << ans2 << endl;
 }
 
 signed main(){

@@ -17,22 +17,7 @@ void solve(){
     for(int i = 1; i <= n-2; i++){
         cout << 1 << " ";
     }
-    cout << 2 << " " <<  n+k << endl;
-    // int k = 16;
-    // for(int i = 1; i <= k; i++){
-    //     for(int j = 1; j <= k; j++){
-    //         for(int z = 1; z <= k; z++){
-    //             for(int m = 1; m <= k ; m++){
-    //                 if(i + j + z + m + k == m*i*j*z){
-    //                     cout << i + j + z + k + m << endl;
-    //                     cout << i << " " << j << " " << z << " " << m << endl;
-    //                 }                    
-    //             }
-
-    //         }
-    //     }
-    // }
-    
+    cout << 2 << " " <<  n+k << endl;    
 }
 
 signed main(){

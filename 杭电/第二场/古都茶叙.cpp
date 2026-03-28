@@ -9,8 +9,23 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
+// 题解代码，找到前缀和的最小值的下标pos，ans = pos + 1
+void solve1(){
+    int n; cin >> n;
+    vector<int> pre(n+1);
+    int mn = 0, pos = 0;;
+    for(int i = 1; i <= n; i++){
+        int x; cin >> x;
+        pre[i] = pre[i-1] + x;
+        if(pre[i] < mn && i != n){
+            mn = pre[i];
+            pos = i;
+        }
+    }
+    cout << pos + 1 << endl;
+}
 void solve(){
+    // 我的暴力代码
     int n; cin >> n;
     vector<int> a(n+1),b(2*n+1);
 

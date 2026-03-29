@@ -12,7 +12,13 @@ const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
     int n; cin >> n;
-    rep(i,1,n) cout << n-i+1 << " \n"[i==n];
+    vector<int> p(n+1);
+    rep(i,1,n) cin >> p[i];
+    int cnt = 0;
+    for(int i = 1; i <= n; i++){
+        if(p[i] <= i) cnt++;
+    }
+    cout << cnt << endl;
 }
 
 signed main(){

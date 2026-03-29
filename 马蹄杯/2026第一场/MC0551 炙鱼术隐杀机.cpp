@@ -26,8 +26,7 @@ const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
      
     我们很容易会想到二位前缀和
 
-
-
+    后面就是代码实现的细节了 - 详见代码
 */
 void solve(){
     int n,m; cin >> n >> m;

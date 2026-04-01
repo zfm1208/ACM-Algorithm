@@ -25,6 +25,27 @@ void solve(){
         }
     }
 }
+// 暴力代码
+void solve1(){
+    int a,b,c;;
+    auto get = [&](double x, double y) -> bool {
+        return (((double) a*x*x + (double)b * x * y  + (double)c * y * y) < -1e-10);
+    };    
+    while(cin >> a >> b >> c){
+        bool ok = 0;
+        for(double x = -10; x<=10; x += 0.05){
+            for(double y = -10; y<=10; y += 0.05){
+                if(get(x,y)){
+                    cout << "No" << endl;
+                    ok = 1;
+                    break;
+                }
+            }
+            if(ok) break;
+        }
+        if(!ok)cout << "Yes" << endl;
+    }
+}
 
 signed main(){
     ios::sync_with_stdio(false);

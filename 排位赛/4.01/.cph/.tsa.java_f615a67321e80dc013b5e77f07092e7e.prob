@@ -1,1 +1,0 @@
-{"name":"Local: tsa","url":"d:\\VSC\\code_ex\\排位赛\\4.01\\tsa.java","tests":[{"id":1775012955489,"input":"3 2\n3 -2\n-9223372036854775808 1\n-9223372036854775808 -1","output":"1\r\n-2\r\n-9223372036854775808\r\n9223372036854775808\r\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\VSC\\code_ex\\排位赛\\4.01\\tsa.java","group":"local","local":true}

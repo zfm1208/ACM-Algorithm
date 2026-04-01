@@ -1,0 +1,1 @@
+{"name":"Local: a","url":"d:\\VSC\\code_ex\\排位赛\\4.01\\a.java","tests":[{"id":1775012915741,"input":"3 2\n3 -2\n-9223372036854775808 1\n-9223372036854775808 -1","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\VSC\\code_ex\\排位赛\\4.01\\a.java","group":"local","local":true}

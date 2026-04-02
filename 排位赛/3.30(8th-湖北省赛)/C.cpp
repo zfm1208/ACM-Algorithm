@@ -40,8 +40,10 @@ void solve(){
     vector<int> ans;
     int cnt = 0;
     int idx = 1;
-    while(1){
-        while(idx <= n && a[idx][0] <= cnt){
+    while(1)
+    {
+        while(idx <= n && a[idx][0] <= cnt)
+        {
             pq.push({a[idx][1], a[idx][2]});
             idx++;
         }

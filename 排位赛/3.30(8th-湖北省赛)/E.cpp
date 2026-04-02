@@ -77,11 +77,11 @@ void solve(){
         double dist2 = inf;
         for(int i = 0; i < 3; i++)
         {
+            auto [x1,y1] = st[i];
             for(int j = 0; j < 3; j++)
             {
                 if(i != j)
                 {
-                    auto [x1,y1] = st[i];
                     auto [x2,y2] = st[j];
                     double d1 = get(x,y,x1,y1);
                     double d2 = get(x1,y1,x2,y2);

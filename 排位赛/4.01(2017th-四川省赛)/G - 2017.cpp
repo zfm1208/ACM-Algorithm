@@ -9,13 +9,13 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
+ 
 void solve(){
     int a,b,c,d;
     // x [a,b]  y[c,d]
     // x * y % 2017 == 0
     // count of pair{x,y}
-    while(cin >> a >> b >> c >> d && a != EOF){
+    while(cin >> a >> b >> c >> d){
         if(b < 2017 && d < 2017) cout << 0 << endl;
         else{
             int ans = 0;

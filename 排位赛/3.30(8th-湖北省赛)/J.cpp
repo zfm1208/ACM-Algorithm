@@ -54,7 +54,6 @@ void solve(){
         int x = cnt1 * i % mod;
         ans = (ans * p % mod + x) % mod;
     }
-
     cout << ans << endl;
 }
 

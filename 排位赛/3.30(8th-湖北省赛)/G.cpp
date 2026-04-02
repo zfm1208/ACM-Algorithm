@@ -33,11 +33,13 @@ void solve1(){
             pref[1][i+1] = pref[1][i] + (a[i] == 1);
             pref[2][i+1] = pref[2][i] + (a[i] == 2);
         }        
-        for(int r = 1; r <= sz; r++){
+        for(int r = 1; r <= sz; r++)
+        {
             int le = max(1LL, r - len/2 + 1);
             int ri = r;
             int ans = r+1;
-            while(le <= ri){
+            while(le <= ri)
+            {
                 int mid = (le + ri) / 2;
                 int c0 = pref[0][r] - pref[0][mid-1];
                 int c1 = pref[1][r] - pref[1][mid-1];

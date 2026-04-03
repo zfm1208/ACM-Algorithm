@@ -11,31 +11,43 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    int a,b,c;;
-    auto get = [&](double x, double y) -> bool {
-        return (((double) a*x*x + (double)b * x * y  + (double)c * y * y) < -1e-10);
-    };    
-    while(cin >> a >> b >> c){
-        bool ok = 0;
-        for(double x = -10; x<=10; x += 0.05){
-            for(double y = -10; y<=10; y += 0.05){
-                if(get(x,y)){
-                    cout << "No" << endl;
-                    ok = 1;
-                    break;
-                }
-            }
-            if(ok) break;
+    int n, m, k; 
+    cin >> n >> m >> k;
+    vector<int> a(n+1);
+    rep(i,1,n) cin >> a[i];
+    int ans = -inf;
+    vector<int> vis(n+1, 0);
+    int cnt = (n - k) / m + 1; 
+    for(int i = 1; i <= n; i++){
+        if(vis[i]) continue;
+        vector<int> c;
+        int now = i;
+        while(vis[now] == 0){
+            vis[now] = 1;
+            c.pb(a[now]);
+            now = (now - 1 + m) % n + 1; 
+            // cout << "now: " << now << endl;
         }
-        if(!ok)cout << "Yes" << endl;
+        int len = c.size();
+        for(int x: c) c.pb(x);
+        int res = 0;
+        for(int j = 0; j < cnt; j++){
+            res += c[j];
+        }
+        ans = max(ans, res);
+        for(int j = 1; j < len; j++){
+            res = res - c[j - 1] + c[j + cnt - 1]; 
+            ans = max(ans, res);
+        }
     }
+    cout << ans << endl;
 }
 
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);
     int T = 1;
-    // cin >> T;
+    cin >> T;
     while(T--)
         solve();
     return 0;

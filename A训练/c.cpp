@@ -8,7 +8,7 @@ using namespace std;
 #define se second
 #define endl '\n'
 double pi = acos(-1);
-const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+const int N = 1e6, mod = 998244353, inf = 1e18 + 5;
 
 void solve(){
     

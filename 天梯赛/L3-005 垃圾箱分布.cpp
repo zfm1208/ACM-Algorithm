@@ -19,70 +19,68 @@ void solve(){
     int n,m,k,ds; 
     cin >> n >> m >> k >> ds;
     vector<vector<pii>> adj(n+m+1);
-    auto ys = [&] (string s) -> int {
+    auto get = [&](string s) -> int {
         if(s[0] == 'G'){
-            return stoi(s.substr(1)) + n;
+            return stoll(s.substr(1)) + n;
         }
-        return stoi(s);
+        return stoll(s);
     };
     for(int i = 1; i <= k; i++){
-        string s1,s2; int w;
-        cin >> s1 >> s2 >> w;
-        int u = ys(s1);
-        int v = ys(s2);
-        adj[u].pb({v,w});
-        adj[v].pb({u,w});
+        string s1,s2;
+        cin >> s1 >> s2;
+        int d; cin >> d;
+        int u = get(s1), v = get(s2);
+        adj[u].pb({v,d});
+        adj[v].pb({u,d});
     }
-    auto dijkstra = [&] (int st) -> node {
-        vector<int> dist(n+m+1,inf);
-        priority_queue<pii, vector<pii>, greater<pii>> pq;
+    auto dijkstra = [&](int st) -> node {
+        vector<int> dist(n+1+m,inf);
         dist[st] = 0;
-        pq.push({0, st});
+        priority_queue<pii,vector<pii>,greater<pii>> pq;
+        pq.push({0,st});
         while(!pq.empty()){
-            auto [d, u] = pq.top();
+            auto [d,u] = pq.top();
             pq.pop();
-            if (d > dist[u]) continue;
-            for(auto& [v,w] : adj[u]) {
-                if (dist[u] + w < dist[v]) {
+            if(d > dist[u]) continue;
+            for(auto &[v,w]: adj[u]){
+                if(dist[u] + w < dist[v]){
                     dist[v] = dist[u] + w;
                     pq.push({dist[v], v});
                 }
             }
         }
-        node res = {st - n, inf, 0, true};
+        node cur = {st-n, inf, 0, 1};
         for(int i = 1; i <= n; i++){
             if(dist[i] > ds){
-                res.ok = false; 
+                cur.ok = 0;
                 break;
             }
-            res.min_dist = min(res.min_dist, dist[i]);
-            res.sum_dist += dist[i];
+            cur.min_dist = min(cur.min_dist, dist[i]);
+            cur.sum_dist += dist[i];
         }
-        return res;
+        return cur;
     };
     vector<node> ans;
-
     for(int i = 1; i <= m; i++){
-        node curr = dijkstra(n + i);
-        if(curr.ok) ans.pb(curr);
+        node cur = dijkstra(i+n);
+        if(cur.ok == 1) ans.pb(cur);
     }
     if(ans.empty()){
-        cout << "No Solution" << endl;
+        cout << "No Solution";
         return;
     }
-    sort(ans.begin(), ans.end(), [](const node& a, const node& b) {
-        if (a.min_dist != b.min_dist) 
-            return a.min_dist > b.min_dist; 
-        if (a.sum_dist != b.sum_dist) 
-            return a.sum_dist < b.sum_dist; 
-        return a.id < b.id;                
+    sort(ans.begin(),ans.end(),[](node x, node y){
+        if(x.min_dist != y.min_dist)
+            return x.min_dist > y.min_dist;
+        if(x.sum_dist != y.sum_dist)
+            return x.sum_dist < y.sum_dist;
+        return x.id < y.id;
     });
-    node best = ans[0];
+    node res = ans[0];
+    cout << "G" << res.id << endl;
+    double av = round(10.0 * res.sum_dist / n) / 10.0;
 
-    double av = round((double)best.sum_dist / n * 10.0) / 10.0;
-
-    cout << "G" << best.id << '\n';
-    cout << fixed << setprecision(1) << (double)best.min_dist << " " << av << endl;
+    cout << fixed << setprecision(1) << (double)res.min_dist << " " << fixed << setprecision(1) << av;
 }
 
 signed main(){

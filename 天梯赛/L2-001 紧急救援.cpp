@@ -9,89 +9,71 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-int fpow(int a,int b){
-    int res = 1;
-    while(b){
-        if(b&1) res = res * a % mod;
-        a = a * a % mod;
-        b >>= 1;
+
+void solve(){
+    int n,m,st,ed;
+    cin >> n >> m >> st >> ed;
+    vector<int> a(n);
+    rep(i,0,n-1) cin >> a[i];
+    vector<vector<pii>> adj(n);
+    for(int i = 1; i <= m; i++){
+        int u,v,w; cin >> u >> v >> w;
+        adj[u].pb({v,w});
+        adj[v].pb({u,w});
     }
-    return res % mod;
-}
-int n,m,st,ed;
-int a[505];
-vector<pii> e[505];
-int dis[505];
-int vis[505];
-int cnt[505]; // 在最短路下 从st到i结点的方案数量
-int jiuyuan[505]; // 在最短路下 从st到i结点的救援队数量
-int pre[505];
-void dijkstra(){
-    priority_queue<pii,vector<pii>,greater<pii>> q;
-    for(int i = 0; i < n; i++){
-        dis[i] = inf;
-        cnt[i] = 0;
-        vis[i] = 0;
-        jiuyuan[i] = 0;
-        pre[i] = -1;
-    }
-    q.push({0,st});
-    dis[st] = 0;
-    cnt[st] = 1;
-    jiuyuan[st] = a[st];
-    while(!q.empty()){
-        auto [w,u] = q.top();
-        q.pop();
-        if(vis[u]) continue;
-        vis[u] = 1;
-        for(auto [v,d]: e[u]){
-            if(dis[v] > dis[u] + d){
-                dis[v] = dis[u] + d;
-                cnt[v] = cnt[u]; // 直接继承，因为是要最短路情况
-                pre[v] = u;
-                jiuyuan[v] = jiuyuan[u] + a[v];
-                q.push({dis[v],v});
-            }else if(dis[v] == dis[u] + d){
-                cnt[v] += cnt[u]; // 路径累加
-                if(jiuyuan[v] < jiuyuan[u] + a[v]){
-                    jiuyuan[v] = jiuyuan[u] + a[v];
+    vector<int> cnt(n),pre(n),team(n);
+    auto dijkstra = [&] (int st) -> void {
+        vector<int> dist(n,inf);
+        dist[st] = 0;
+        cnt[st] = 1;
+        pre[st] = -1;
+        team[st] = a[st];
+        priority_queue<pii,vector<pii>,greater<pii>> pq;
+        pq.push({0,st});
+        while(!pq.empty()){
+            auto [d,u] = pq.top();
+            pq.pop();
+            if(d > dist[u]) continue;
+            for(auto [v,w]: adj[u]){
+                if(dist[u] + w < dist[v]){
+                    dist[v] = dist[u] + w;
+                    team[v] = team[u] + a[v];
+                    cnt[v] = cnt[u];
                     pre[v] = u;
+                    pq.push({dist[v], v});
+                }else if(dist[u] + w == dist[v]){
+                    cnt[v] += cnt[u];
+                    if(team[v] < team[u] + a[v]){
+                        team[v] = team[u] + a[v];
+                        pre[v] = u;
+                        // pq.push({dist[v], v});
+                    }
                 }
             }
         }
+    };
+    dijkstra(st);
+    cout << cnt[ed] << " " << team[ed] << endl;
+    vector<int> ans;
+    ans.pb(ed);
+    int op = ed;
+    while(op){
+        op = pre[op];
+        if(op == -1) break;
+        ans.pb(op);
     }
-}
-void solve(){
-    for(int i = 0; i < n; i++) e[i].clear();
-    cin >> n >> m >> st >> ed;
-    for(int i = 0; i < n; i++) cin >> a[i];
-    for(int i = 0; i < m; i++){
-        int u,v,d;
-        cin >> u >> v >> d;
-        e[u].pb({v,d});
-        e[v].pb({u,d});
+    reverse(ans.begin(),ans.end());
+    for(int i = 0; i < ans.size(); i++){
+        cout << ans[i] << (i == ans.size() - 1 ? "" : " ");
     }
-    dijkstra();
-    vector<int> path;
-    int now = ed;
-    while(now != -1){
-        path.pb(now);
-        now = pre[now];
-    }
-    reverse(path.begin(),path.end());
-    cout << cnt[ed] << " "<< jiuyuan[ed] << endl;
-    int nn = path.size();
-    for(int i = 0; i < nn; i++){
-        if(i == nn-1)cout << path[i];
-        else cout << path[i] << " ";
-    }
+
 }
 
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);
     int T = 1;
-    //cin >> T;
+    // cin >> T;
     while(T--)
         solve();
     return 0;

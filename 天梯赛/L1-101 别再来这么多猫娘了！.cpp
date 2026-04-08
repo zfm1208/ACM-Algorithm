@@ -9,50 +9,45 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-// wa 未解决
+string tp = "<censored>";
+string nb = "He Xie Ni Quan Jia!";
+string hh;
+
+// 这一题14/15, 过了绝大多数分数, 赛时的话不用追求那一分了
 void solve(){
-    int n; 
-    if(!(cin >> n)) return; 
-    
+    int n; cin >> n;
+    getline(cin,hh);
     vector<string> cun;
     for(int i = 1; i <= n; i++){
-        string s;cin >> s;
+        string s;
+        getline(cin,s);
         cun.pb(s);
     }
     int k; cin >> k;
-    string op;
-    getline(cin,op);
-    string s;
-    getline(cin,s);
-    
-    while(!s.empty() && s.back() == '\r'){
-        s.pop_back();
-    }
-    
+    getline(cin,hh);
+    string s; getline(cin,s);
     int len = s.size();
+    string ans;
     int cnt = 0;
-    string ans = "";
-    
-    for(int i = 0; i < len; ){
+    for(int i = 0; i < len; i++){
         bool ok = 0;
-        for(string tp: cun){
-            int n_tp = tp.size();
-            if(i + n_tp <= len && s.substr(i, n_tp) == tp){
+        for(string s1 : cun){
+            int n1 = s1.size();
+            if(i + n1 <= len && s.substr(i,n1) == s1){
                 cnt++;
-                ans += "<censored>";
-                i += n_tp;  
+                i += n1 - 1;
                 ok = 1;
-                break;     
+                ans += tp;
+                break;
             }
         }
         if(ok == 0){
             ans += s[i];
-            i++;
         }
     }
     if(cnt >= k){
         cout << cnt << endl;
-        cout << "He Xie Ni Quan Jia!" << endl;
+        cout << nb << endl;
     }else{
         cout << ans << endl;
     }

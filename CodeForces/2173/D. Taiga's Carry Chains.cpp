@@ -25,7 +25,7 @@ void solve() {
         if(!(n >> i & 1)) cnt_0++;
     }
     if(k > cnt_0){
-        cout << k - cnt_0 + 30 - 1 << endl;
+        cout << k - cnt_0 - 1 + 30 << endl;
         return;
     }
     vector<int> a(31),pre(31); 

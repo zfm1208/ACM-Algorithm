@@ -11,17 +11,8 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    int n,m,a,b; 
-    cin >> n >> m >> a >> b;
-    if(__gcd(a,n) == 1 && __gcd(b,m) == 1){
-        if(__gcd(n,m) <= 2){
-            cout << "YES" << endl;
-            return;
-        }
-    }
-    cout << "NO" << endl;
+    
 }
-
 
 signed main(){
     ios::sync_with_stdio(false);

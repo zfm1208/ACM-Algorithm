@@ -8,83 +8,69 @@ using namespace std;
 #define se second
 #define endl '\n'
 double pi = acos(-1);
-const int N = 1e5 + 10, mod = 1e9+7, inf = 1e18 + 5;
+const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+
 struct BIT {
     int n;
-    vector<int> tree;
-    BIT(int n) : n(n), tree(n + 1, 0) {}
+    vector<int> tr;
+    BIT(int _n) : n(_n), tr(_n + 1, 0) {}
+    int lowbit(int x) { return x & -x; }
     
-    void add(int x, int val) {
-        for (; x <= n; x += x & -x) tree[x] += val;
+    void add(int x, int c) {
+        for (int i = x; i <= n; i += lowbit(i)) tr[i] += c;
     }
     
     int query(int x) {
-        int sum = 0;
-        for (; x > 0; x -= x & -x) sum += tree[x];
-        return sum;
+        int res = 0;
+        for (int i = x; i > 0; i -= lowbit(i)) res += tr[i];
+        return res;
     }
     
-    int query1(int x) {
-        if (x >= n) return 0;
-        return query(n) - query(x);
+    int query(int l, int r) {
+        if (l > r) return 0;
+        return query(r) - query(l - 1);
     }
 };
 
-void solve() {
+void solve(){
     int n; cin >> n;
     vector<int> a(n + 1);
-    vector<int> cnt(n + 1, 0);
-    vector<int> pos2(n + 1, n + 2); 
-    for(int i = 1; i <= n; i++){
+    for(int i = 1; i <= n; i++) {
         cin >> a[i];
-        cnt[a[i]]++;
-        if (cnt[a[i]] == 2) {
-            pos2[a[i]] = i;
-        }
     }
-    vector<int> B(n + 1);
-    int M = 0;
-    for (int i = 1; i <= n; i++) {
-        if (a[i] > M) {
-            B[i] = M; 
-            M = a[i];
+    BIT bit(n + 1); 
+    vector<int> vis(n + 1);
+    int mx = a[1]; 
+    int flag = 0; 
+    int cnt = 0;
+    int ans = 0;
+    vis[a[1]] = 1;
+    bit.add(a[1], 1);
+    cout << ans << (1 == n ? "" : " ");
+    for(int i = 2; i <= n; i++){
+        if(!vis[a[i]]){
+            vis[a[i]] = 1;
+            bit.add(a[i], 1);
+        }
+        if(a[i] == mx)  flag = 1;
+        if(flag == 1 && a[i] <= mx)  cnt++;
+        if(a[i] > mx){
+            ans += 1 + cnt; 
+            int old_mx = mx;
+            mx = a[i]; 
+            cnt = 0;
+            flag = 0;
+            ans += bit.query(old_mx + 1, mx); 
         } else {
-            B[i] = a[i];
+            ans += bit.query(a[i] + 1, mx); 
         }
-    }
-
-    BIT bit(n);
-    vector<bool> seen(n + 1, false);
-    
-    int cur = 0;
-    int L1 = 0;
-    int prefC = 0;     
-
-    for (int k = 1; k <= n; k++) {
-        if (a[k] > cur) {
-            cur = a[k];
-            L1++;
-        }
-        if (k >= 2) {
-            prefC += bit.query1(B[k]);
-            if (B[k] >= 1 && !seen[B[k]]) {
-                seen[B[k]] = true;
-                bit.add(B[k], 1);
-            }
-        }
-        int term1 = L1 - 1;
-        int term2 = prefC;
-        int p2 = pos2[cur];
-        int term3 = max(0LL, min((int)k, p2 - 1) - 1);
-
-        cout << term1 + term2 + term3 << (k == n ? "" : " ");
+        cout << ans << (i == n ? "" : " ");
     }
     cout << endl;
 }
-
-signed main() {
+signed main(){
     ios::sync_with_stdio(false);
-    cin.tie(0); cout.tie(0);
+    cin.tie(0);cout.tie(0);
     int T = 1;
     cin >> T;
     while(T--)

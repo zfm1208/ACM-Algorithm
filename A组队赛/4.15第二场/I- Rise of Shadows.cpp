@@ -68,7 +68,10 @@ K: 19 : 36
 K: 20 : 40
 
 */
+
+// https://qoj.ac/contest/1251/problem/6607
 void solve(){
+    // 打表代码
     // int n,m; cin >> n >> m;
     // for(int k = 0; k <= n*m/2; k++){
     //     int x=0;
@@ -88,6 +91,7 @@ void solve(){
     }
     int gg =__gcd(n-1,m);
     int ans = gg;
+    // 2 * gg 是增量
     ans += k/gg * 2 * gg;
     cout << ans << '\n';
 

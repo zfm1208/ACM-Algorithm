@@ -9,7 +9,7 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
+// https://qoj.ac/contest/1251/problem/6604
 void solve(){
     int n; cin >> n;
     vector<int> a(n+1),b(n+1);
@@ -22,10 +22,15 @@ void solve(){
     unordered_map<int,int> mp;
     int cnt = 0;
     for(int i = 1; i <= n; i++){
+        
+        if(mp[a[i]] == 0) cnt++;
         mp[a[i]]++;
-        if(mp[a[i]]==1) cnt++;
+        if(mp[a[i]] == 0) cnt--;
+
+        if(mp[b[i]] == 0) cnt++;
         mp[b[i]]--;
-        if(mp[b[i]]==0) cnt--;
+        if(mp[b[i]] == 0) cnt--;
+
         if(cnt == 0) ans++;
     }
     cout << ans << endl;

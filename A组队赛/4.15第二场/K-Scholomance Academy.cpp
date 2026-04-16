@@ -9,13 +9,6 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-struct node {
-    char c;
-    int x;
-    bool operator<(const node& other) const {
-        return x > other.x; 
-    }
-};
 
 /*
     P 正类 

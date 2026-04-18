@@ -82,7 +82,7 @@ void solve3() {
         dp[i] = *st.begin() + a[i] / 2;
     }
     int ans = inf;
-        for(int i = max(1LL, n-k); i <= n; i++){
+    for(int i = max(1LL, n-k); i <= n; i++){
         ans = min(ans, dp[i]);
     }
     cout << ans + sum << endl;

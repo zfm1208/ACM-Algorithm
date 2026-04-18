@@ -79,7 +79,6 @@ void solve(){
     node res = ans[0];
     cout << "G" << res.id << endl;
     double av = round(10.0 * res.sum_dist / n) / 10.0;
-
     cout << fixed << setprecision(1) << (double)res.min_dist << " " << fixed << setprecision(1) << av;
 }
 

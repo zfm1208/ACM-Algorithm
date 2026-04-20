@@ -11,14 +11,22 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
+    int n; cin >> n;
+    double ans = 0;
+    for(int i = 1; i <= n; i++){
+        int x1,x2,x3,x4; cin >> x1 >> x2 >> x3 >> x4;
+        ans += 2 * sqrt((x3-x1) * (x3-x1) + (x4-x2) * (x4-x2));
+    }
     
+    int x,y; cin >> x >> y;
+    cout << fixed << setprecision(10) << ans << endl;
 }
 
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);
     int T = 1;
-    cin >> T;
+    // cin >> T;
     while(T--)
         solve();
     return 0;

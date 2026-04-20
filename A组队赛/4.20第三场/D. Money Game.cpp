@@ -9,25 +9,20 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
+// https://qoj.ac/contest/1071/problem/5304
 void solve(){
-    int n, m;
-    cin >> n >> m;
-    vector<int> f(m+1, 0);
-    while(n--) {
-        int x;
-        cin >> x;
-        f[x]++;
+    int n; cin >> n;
+    vector<double> a(n+1);
+    double sum = 0;
+    for(int i = 1; i <= n; i++){
+        cin >> a[i];
+        sum += a[i];
     }
-    bool q1 = true, q2 = true;
-    for (int i = 1; i <= m; i++) {
-        if (f[i] >= 2) q1 = false;
-        if (f[i] == 0) q2 = false;
+    double ans = sum * 1.0 / (n+1);
+    for(int i = 1; i <= n; i++){
+        if(i == 1) cout << fixed << setprecision(10) << 2 * ans << " ";
+        else cout << ans << " ";
     }
-    if (q1) cout << "Yes\n";
-    else cout << "No\n";
-    if (q2) cout << "Yes\n";
-    else cout << "No\n";
 }
 
 signed main(){

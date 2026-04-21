@@ -25,7 +25,7 @@ const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
     * 状态转移
     初始化-1 表示不可达
     对于第i件装备, 基础强度为pi, 我们从容量j 倒推 0 
-    A : 作为完全加入 此时还没用过特权
+    A : 作为完全强化加入 此时还没用过特权
     dp[j][0] = max(dp[j][0], dp[j-pi][0] + w[i][pi])
     B : 作为唯一的 部分强化 加入 (假设消耗了c) (1 <= c < pi)
     dp[j][1] = max(dp[j][1], dp[j-c][0] + w[i][c])
@@ -69,21 +69,19 @@ void solve(){
             cin >> w[x];
         }
         for(int j = k; j >= 0; j--){
-            // 情况C
-            if(j >= p && dp[j-p][1] != -1){
-                dp[j][1] = max(dp[j][1], dp[j-p][1] + w[p]);
+            // 情况A
+            if(j >= p && dp[j-p][0] != -1){
+                dp[j][0] = max(dp[j][0], dp[j-p][0] + w[p]);
             }
-
             // 情况B
             for(int c = 1; c < p; c++){
                 if(j >= c && dp[j-c][0] != -1){
                     dp[j][1] = max(dp[j][1], dp[j-c][0] + w[c]);
                 }
             }
-
-            // 情况A
-            if(j >= p && dp[j-p][0] != -1){
-                dp[j][0] = max(dp[j][0], dp[j-p][0] + w[p]);
+            // 情况C
+            if(j >= p && dp[j-p][1] != -1){
+                dp[j][1] = max(dp[j][1], dp[j-p][1] + w[p]);
             }
         }
     }

@@ -30,41 +30,42 @@ const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 */
 void solve(){
     int n,m; cin >> n >> m;
-    vector<vector<int>> a(n+1,vector<int>(n+1));
-    vector<vector<int>> b(m+1,vector<int>(m+1));
+    vector<vector<int>> a(n+1,vector<int> (n+1));
+    vector<vector<int>> b(m+1,vector<int> (m+1));
     rep(i,1,n) rep(j,1,n) cin >> a[i][j];
     rep(i,1,m) rep(j,1,m) cin >> b[i][j];
     int ans = 0;
-    for(int p = 0; p <= 30; p++){
-        vector<vector<int>> sum(n+1,vector<int> (n+1));
-        rep(i,1,n) rep(j,1,n){
-            int x = (a[i][j] >> p) & 1;
-            sum[i][j] = sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1] + x;
-        }
-        int res = 0;
-
-        for(int k = 1; k <= m; k++)
+    int dx = n - m, dy = n - m;
+    for(int k = 0; k <= 30; k++)
+    {
+        vector<vector<int>> sum(n+1,vector<int>(n+1));
+        for(int i = 1; i <= n; i++)
         {
-            for(int l = 1; l <= m; l++)
+            for(int j = 1; j <= n; j++)
             {
-                
-                int x1 = k, y1 = l;
-                int x2 = k + n - m, y2 = l + n - m;
-                int cnt1 = sum[x2][y2] - sum[x1-1][y2] - sum[x2][y1-1] + sum[x1-1][y1-1];
-                int cnt0 = (n-m+1) * (n-m+1) - cnt1;
-                int bi = (b[k][l] >> p) & 1;
-                if(bi == 0){
-                    res = (res + cnt1) % mod;
+                int x = (a[i][j] >> k) & 1LL;
+                sum[i][j] = sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1] + x;
+            }
+        }
+        int cnt = 0;
+        for(int i = 1; i <= m; i++)
+        {
+            for(int j = 1; j <= m; j++)
+            {
+                int x = i, y = j;
+                int ex = i + dx,ey = j + dy;
+                int cnt1 = sum[ex][ey] - sum[ex][y-1] - sum[x-1][ey] + sum[x-1][y-1];
+                int cnt0 = (ex - x + 1) * (ey - y + 1) - cnt1;
+                if((b[i][j] >> k) & 1LL){
+                    cnt = (cnt + cnt0) % mod;
                 }else{
-                    res = (res + cnt0) % mod;
+                    cnt = (cnt + cnt1) % mod;          
                 }
             }
         }
-        int pp = (1LL << p) % mod;
-        ans = (ans + res * pp % mod) % mod;
+        ans = (ans + cnt * (1LL << k)) % mod;
     }
     cout << ans << endl;
-
     // 暴力代码：
     // for(int i = 1; i <= n-m+1; i++){
     //     for(int j = 1; j <= n-m+1; j++){

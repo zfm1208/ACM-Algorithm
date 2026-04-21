@@ -11,7 +11,12 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    
+    string s; cin >> s;
+    int cnt = 0;
+    for(int i = 0; i < s.size();  i++){
+        if(s[i] == s[i+1]) cnt++;
+    }
+    cout << (cnt > 2 ? "NO" : "YES") << endl;
 }
 
 signed main(){

@@ -11,7 +11,9 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    
+    int x,y; cin>>x>>y;
+    if(y/x<=2) cout << "NO\n";
+    else cout << "YES\n";
 }
 
 signed main(){

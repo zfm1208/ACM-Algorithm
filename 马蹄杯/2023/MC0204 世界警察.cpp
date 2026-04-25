@@ -11,14 +11,28 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    
+    int n; cin >> n;
+    vector<int> a(n+1);
+    rep(i,1,n) cin >> a[i];
+    int ans = 0;
+    int l = 1;
+    unordered_map<int,int> mp;
+    for(int r = 1; r <= n; r++){
+        mp[a[r]]++;
+        while(mp[a[r]] > 1){
+            mp[a[l]]--;
+            l++;
+        }
+        ans = max(ans, r - l + 1);
+    }
+    cout << ans << endl;
 }
 
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0);cout.tie(0);
     int T = 1;
-    cin >> T;
+    // cin >> T;
     while(T--)
         solve();
     return 0;

@@ -11,7 +11,23 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    
+    string s; cin >> s;
+    int cnt = 0, cnt1 = 0;
+    for(int i = 0; i < s.size(); i++){
+        if(i & 1){ // B
+            if(s[i] == 'A') cnt++;
+        }else{ // A
+            if(s[i] == 'B') cnt++;
+        }
+    }
+    for(int i = 0; i < s.size(); i++){
+        if(i % 2 == 0){ // B
+            if(s[i] == 'A') cnt1++;
+        }else{ // A
+            if(s[i] == 'B') cnt1++;
+        }
+    }   
+    cout << min(cnt, cnt1) << endl;
 }
 
 signed main(){

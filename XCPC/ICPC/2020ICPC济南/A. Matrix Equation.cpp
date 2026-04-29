@@ -9,6 +9,7 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+// https://qoj.ac/contest/2181/problem/12398
 
 void solve(){
     

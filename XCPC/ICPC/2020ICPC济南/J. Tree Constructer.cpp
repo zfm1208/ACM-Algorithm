@@ -23,26 +23,22 @@ int color[N];
 void dfs(int u, int c){
     color[u] = c;
     for(int v: adj[u]){
-        if(color[v] == -1){
-            dfs(v, 1 - c); // 相邻节点染相反颜色
+        if(color[v] == 0){
+            dfs(v, 3 - c); // 相邻节点染相反颜色
         }
     }
 }
 void solve(){
     int n; cin >> n;
-    for(int i = 1; i <= n; i++){
-        color[i]  = -1;
-    }
-
     for(int i = 1; i < n; i++){
         int u,v; cin >> u >> v;
         adj[u].pb(v);
         adj[v].pb(u);
     }
-    dfs(1, 0);
+    dfs(1, 1);
     vector<int> s,t;
     for(int i = 1; i <= n; i++){
-        if(color[i] == 0) s.push_back(i);
+        if(color[i] == 1) s.push_back(i);
         else t.push_back(i);
     }
 
@@ -63,18 +59,18 @@ void solve(){
     }
 
     for(int j = 0; j < t.size(); j++){
-        int v = t[j];
         for(int i = 0; i < s.size(); i++){
             int u = s[i];
             bool ok = 0;
-            for(int ner: adj[v]){
+            for(int ner: adj[t[j]]){
                 if(ner == u){
                     ok = 1;
                     break;
                 }
             }
-            if(ok == 0){
-                ans[v] ^= (1LL << i);
+            if(ok == 0){ //if (s[i] 和 t[j] 之间没有边)
+                // s[i] 的 第i位是0, 把t[j] 的第i位也变成0, 这一位or运算就是0
+                ans[t[j]] ^= (1LL << i);
             }
         }
     }

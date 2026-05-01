@@ -37,6 +37,7 @@ void solve(){
             mx = max(mx, cnt);
             cnt = 1;
         }
+         mx = max(mx, cnt);
     }
     mx = max(mx, cnt);
     cout << ans + mx - 1 << endl;

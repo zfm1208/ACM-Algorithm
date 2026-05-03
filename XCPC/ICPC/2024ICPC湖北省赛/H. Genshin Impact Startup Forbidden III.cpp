@@ -113,7 +113,7 @@ signed main(){
     ios::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
     int T = 1;
-    // cin >> T; // 本题无多组测试数据，如有需解开注释
+    // cin >> T; 
     while(T--)
         solve();
     return 0;

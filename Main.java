@@ -3,16 +3,17 @@ import java.math.BigInteger;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        // while(sc.hasNextBigInteger()){
-            BigInteger a = sc.nextBigInteger();
-            BigInteger b = sc.nextBigInteger();
-            BigInteger ans = a.divide(b);
-            if(a.signum() * b.signum() < 0){
-                BigInteger r = a.remainder(b);
-                if(!r.equals(BigInteger.ZERO))
-                    ans = ans.subtract(BigInteger.ONE);
-            }
-            System.out.println(ans);
-        // }
+        BigInteger n = sc.nextBigInteger();
+        BigInteger x = BigInteger.ONE;
+        for(int i = 1; i <= n.intValue(); i++){
+            x.multiply(BigInteger.valueOf(i));
+        }
+        BigInteger y = n;
+        for(int i = 1; i <= n.intValue(); i++){
+            y.multiply(n);
+        }    
+        // System.out.println(x);
+        // System.out.println(y);
+        System.out.println(x.multiply(x).divide(y));    
     }
 }

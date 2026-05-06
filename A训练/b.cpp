@@ -1,4 +1,3 @@
-#include <iostream>
 #include<bits/stdc++.h>
 using namespace std;
 #define rep(i, l, r) for (int i = l; i <= r; i++)
@@ -11,56 +10,71 @@ using namespace std;
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
-void solve() {
-    int n;  cin >> n;
-    vector<vector<int>> adj(n + 1);
-    for(int i = 1; i < n; i++) {
-        int u, v; 
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+void solve(){
+    string s;
+    cin >> s;
+    if(s[0]=='0')
+    {
+        cout << "-1\n";
+        return;
     }
-
-    vector<int> siz(n + 1, 0);      // siz[u] 表示以 u 为根的子树大小
-    vector<int> w(n + 1, 0);  // w[u] 表示删除 u 后，最大连通块的大小
-    vector<int> ans;          // 存储重心的数组（树的重心最多只有两个）
-    int mn = inf;          // 记录全局最小的“最大连通块大小”
-
-    auto dfs = [&](auto& self, int u, int fa) -> void {
-        siz[u] = 1;     // 自己本身算 1 个节点
-        w[u] = 0; // 初始化最大连通块大小
-
-        for(int v : adj[u]){
-            if (v == fa) continue; // 不回头搜父节点
-            self(self, v, u); // 递归遍历子树
-            siz[u] += siz[v];   // 累加子树的大小
-            // 考察向下的各个子树，更新删除 u 后的最大连通块大小
-            w[u] = max(w[u], siz[v]); 
+    int n=s.size();
+    int cnt=0;
+    while(cnt<5)
+    {
+       
+        int sf=0;
+        int pp=0,mx=n;
+        for(int i=0;i<n;i++)
+        {
+            if(s[i]=='0')
+            {
+                if(pp){
+                    mx=min(mx,pp);
+                }
+                sf=1;
+                pp=0;
+            }
+            else
+            {
+                pp++;
+                // mx=max(mx,pp);
+            }
         }
-
-        // 考察向上的那一部分连通块（整棵树的大小 n 减去以 u 为根的子树大小）
-        w[u] = max(w[u], n - siz[u]);
-
-        // 维护全局最小值，寻找重心
-        if (w[u] < mn) {
-            mn = w[u];
-            ans.clear(); // 发现了更优的解，清空之前的记录
-            ans.push_back(u);
-        } else if (w[u] == mn) {
-            ans.push_back(u); // 如果有多个节点满足最小条件，一并记录（最多两个）
+        if(pp){
+            mx=min(mx,pp);
         }
-    };
-
-    // 从任意节点（例如 1 号节点）开始搜索即可
-    dfs(dfs, 1, 0);
-
-    // 输出结果
-    cout << "重心的个数: " << ans.size() << "\n";
-    cout << "重心的节点编号: ";
-    for (int c : ans) {
-        cout << c << " ";
+        int cc=0;
+        // for(int i=n-1;i>=1;i--)
+        // {
+        //     if(s[i]=='0')
+        //     {
+        //         cc++;
+        //     }
+        // }
+        // mx=min(mx,cc);
+        if(!sf)
+        {
+            break;
+        }
+        // cout << mx << " ";
+        string s2=s;
+        for(int i=0;i<n;i++)
+        {
+            if(s[i]=='1')
+            {
+                if(i+mx<n)
+                {
+                    s2[i+mx]='1';
+                }
+                
+            }
+        }
+        s=s2;
+         cnt++;
+        // cout << s << " ";
     }
-    cout << "\n";
+    cout << cnt << '\n';
 }
 
 signed main(){

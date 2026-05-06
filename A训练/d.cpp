@@ -9,76 +9,70 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
-void solve(){
-    int n; cin >> n;
-    vector<vector<int>> adj(n+1);vector<int> du(n+1);
-    for(int i = 1; i < n; i++){
-        int u,v; cin >> u >> v;
-        adj[u].pb(v);
-        adj[v].pb(u);
-    }
-
-    if(cn == n-1){
-        cout << "NO" << endl;
-        return;        
-    }
-    if(n <= 3) {
-        cout << "NO" << endl;
+string s;
+int n;
+int b[10];
+int ans;
+void dfs(int k,int cs)
+{
+    if(cs==k+1)
+    {
+        string s2=s;
+        for(int i=1;i<cs;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(s[j]=='1')
+                {
+                    if(j+b[i]<n)
+                    {
+                        s2[j+b[i]]='1';
+                    }
+                    
+                }
+            }
+        }
+        int sf=1;
+        for(int i=0;i<n;i++)
+        {
+            if(s2[i]=='0')
+            {
+                sf=0;
+                break;
+            }
+        }
+        if(sf)
+        {
+            ans=sf;
+        }
         return;
     }
-    
-    
-    cout << "YES" << endl;
-    vector<int> w(n+1);
-    int cnt = 0;
-    auto dfs = [&] (auto &self, int u, int fa) -> void {
-        cnt++;
-        for(auto v: adj[u]){
-            if(v == fa) continue;
-            self(self, v, u);
-        }
-    };
-    for(int i = 1; i <= n; i++){
-        w[i] = 0;
-        for(int v: adj[i]){
-            cnt = 0;
-            dfs(dfs, v, i);
-            w[i] = max(w[i], cnt);
+    for(int i=1;i<=20;i++)
+    {
+        b[cs]=i;
+        dfs(k,cs+1);
+    }
+}
+void solve(){
+    cin >> s;
+    if(s[0]=='0')
+    {
+        cout << "-1\n";
+        return;
+    }
+    n=s.size();
+    int jl=0;
+    for(int i=0;i<=7;i++)
+    {
+        dfs(i,1);
+       
+        if(ans!=0)
+        {
+            cout << i << '\n';
+            return;
         }
     }
-    int pos = 0;
-    int mx = 0;
-    for(int i = 1; i <= n; i++){
-        // cout << i << " " << w[i] << endl;
-        if(w[i] == n/2){
-            pos = i;
-            break;
-        }
-    }
-     auto dfs1 = [&] (auto &self, int u, int fa) -> void {
-        cout << u << " ";
-        for(auto v: adj[u]){
-            if(v == fa) continue;
-            self(self, v, u);
-        }
-    };   
-    dfs1(dfs1, pos, 0);
-
-    // vector<int> vis(n+1);
-    // queue<int> q;
-    // q.push(pos);
-    // while(q.size()){
-    //     int u = q.front();
-    //     q.pop();
-    //     if(vis[u] == 1) continue;
-    //     vis[u] = 1;
-    //     cout << u << " ";
-    //     for(auto v: adj[u]){
-    //         if(vis[v] == 0) q.push(v);
-    //     }
-    // }
-
+    cout << "-1" << '\n';
 }
 
 signed main(){

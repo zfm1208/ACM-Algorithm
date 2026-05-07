@@ -11,26 +11,47 @@ double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
 void solve(){
-    int n,m; cin >> n >> m;
-    vector<pii> a(n+1);
-    vector<int> b(n+1);
-    for(int i = 1; i <= n; i++){
-        cin >> a[i].fi >> a[i].se;
-        b[i] = a[i].fi - a[i].se;
+    int n, m;
+    cin >> n >> m;
+    
+    vector<int> a(n), b(n), diff(n);
+    int s1 = 0;
+    
+    for(int i = 0; i < n; i++){
+        cin >> a[i] >> b[i];
+        s1 += a[i];        
+        diff[i] = b[i] - a[i];   
     }
-    int ans = 0, now = 0;
-    for(int i = 1; i <= n; i++){
-        now += a[i].se;
+    
+    sort(diff.rbegin(), diff.rend());
+    
+    int ans = 0;
+    
+    if(n == 1){
+        ans = b[0]; 
+    } else {
+  
+        int max_c = min(n - 2, m - n);
+        max_c = max(0LL, max_c);
+        
+        int sum1 = s1;
+        ans = sum1; 
+
+        for(int c = 1; c <= max_c; c++){
+            sum1 += diff[c - 1]; 
+            ans = max(ans, sum1);
+        }
+
+        if(2 * n - 1 <= m){
+            int sum = 0;
+            for(int i = 0; i < n; i++) {
+                sum += b[i];
+            }
+            ans = max(ans, sum);
+        }
     }
-    if(m >= 2 * n - 1) {
-        ans = now;
-    }
-    now += b[n];
-    for(int i = 2; i <= n; i++){
-        now += b[n - i + 1];
-        if(2 * n - i <= m) ans = max(ans, now);
-    }
-    cout << ans << endl;
+    
+    cout << ans << '\n';
 }
 
 signed main(){

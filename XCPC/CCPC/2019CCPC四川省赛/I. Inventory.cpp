@@ -10,9 +10,18 @@ using namespace std;
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 
-void solve(){
-    
-    
+int op = 0;
+
+void solve() {
+    int n; double v; 
+    cin >> n >> v;
+    double sum = 0;
+    for(int i = 1; i <= n; i++){
+        double x; cin >> x;
+        sum += sqrt(x);
+    }
+    double ans = (sum * sum) / v;
+    cout << "Case " << ++op << ": " << fixed << setprecision(6) << ans << endl;
 }
 
 signed main(){

@@ -9,9 +9,20 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
+int op;
 void solve(){
-    
+    int n,m; cin >> n >> m;
+    vector<int> a(n+1),b(m+1);
+    rep(i,1,n) cin >> a[i];
+    rep(i,1,m) cin >> b[i];
+    sort(a.begin()+1,a.end());
+    sort(b.begin()+1,b.end());
+    int ans = (n - m) * 20;
+    for(int i = 1,p = 0; i <= m; i++){
+        p += b[i];
+        ans += a[p];
+    }
+    cout << "Case " << ++op << ": "  << ans << endl;
 }
 
 signed main(){

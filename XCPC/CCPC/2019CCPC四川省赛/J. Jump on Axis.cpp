@@ -9,6 +9,17 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+/*
+    一直选1： 1,4,7,10,...
+    一直选2： 2,5,8,11,...
+    一直选3： 3,6,9,12,...
+    1 使用了a次, 2 使用了b次, 3 使用了c次
+    sum_a = a(3a-1)/2
+    sum_b = b(3b+1)/2
+    sum_c = 3c(c+1)/2
+    sum_a + sum_b + sum_c == k
+    cnt = a+b+c
+*/
 int ksm(int a, int b) {
     int res = 1;
     a %= mod;
@@ -42,17 +53,7 @@ int C(int n, int m) {
     if (n < 0 || m < 0 || n < m) return 0;
     return fact[n] * inv[m] % mod * inv[n - m] % mod;
 }
-/*
-    一直选1： 1,4,7,10,...
-    一直选2： 2,5,8,11,...
-    一直选3： 3,6,9,12,...
-    1 使用了a次, 2 使用了b次, 3 使用了c次
-    sum_a = a(3a-1)/2
-    sum_b = b(3b+1)/2
-    sum_c = 3c(c+1)/2
-    sum_a + sum_b + sum_c == k
-    cnt = a+b+c
-*/
+
 int op;
 void solve(){
     int k; cin >> k;

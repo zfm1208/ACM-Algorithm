@@ -12,8 +12,8 @@ const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
 int op;
 void solve(){
     int n,m,k; cin >> m >> n >> k;
-    vector<string> name(n, "");
-    vector<int> dj(n, 0);
+    vector<string> name(n, ""); // 名字
+    vector<int> dj(n, 0);// 等级
     set<int> st;
     for(int i = 0; i < n; i++) st.insert(i);
     map<string, vector<int>> pos1, pos2;
@@ -51,15 +51,15 @@ void solve(){
         }
     }
     cout << "Case " << ++op << ":";
-    for (int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++){
         cout << " ";
-        if (dj[i] == 0) {
+        if(dj[i] == 0){
             cout << "-1";
-        } else if (dj[i] == 1) {
+        }else if(dj[i] == 1){
             cout << name[i];
-        } else if (dj[i] == 2) {
+        }else if(dj[i] == 2){
             cout << name[i] << "2";
-        } else if (dj[i] == 3) {
+        }else if(dj[i] == 3){
             cout << name[i] << "3";
         }
     }

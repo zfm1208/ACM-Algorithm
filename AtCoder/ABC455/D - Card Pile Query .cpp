@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define rep(i, l, r) for (int i = l; i <= r; i++)
+#define pii pair<int, int>
+#define int long long
+#define pb push_back
+#define fi first
+#define se second
+#define endl '\n'
+double pi = acos(-1);
+const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+
+struct DSU {
+    vector<int> fa;
+    DSU(int n) {
+        fa.resize(n + 1);
+        iota(fa.begin(), fa.end(), 0);
+    }
+    
+    int find(int x){
+        return x == fa[x] ? x : fa[x] = find(fa[x]);
+    }
+    void link(int x, int y){
+        int fx = find(x);
+        int fy = find(y);
+        if(fx != fy){
+            fa[fx] = fy;
+        }
+    }
+};
+
+void solve(){
+    int n, q; cin >> n >> q;    
+    DSU dsu(2 * n);
+    for(int i = 1; i <= n; i++){
+        dsu.fa[i] = i + n; 
+    }
+    for(int i = 1; i <= q; i++){
+        int c, p; cin >> c >> p;
+        dsu.fa[c] = p; 
+    }
+    vector<int> ans(n + 1, 0);
+    for(int i = 1; i <= n; i++){
+        ans[dsu.find(i) - n]++;
+    }
+    for(int i = 1; i <= n; i++){
+        cout << ans[i] << " \n"[i==n];
+    }
+}
+
+signed main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);cout.tie(0);
+    int T = 1;
+    // cin >> T; 
+    while(T--)
+        solve();
+    return 0;
+}

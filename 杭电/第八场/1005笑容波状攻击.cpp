@@ -14,29 +14,33 @@ void solve() {
     string s; cin >> s;
     int n = s.size();
     s = " " + s;
-    int tot = n * (n + 1) / 2;
-    int cnt0 = 0; 
-    int cnt1 = 0; 
-    int len0 = 0;
-    int len1 = 0;
+    int ans = 0;
+    int cnt1=0,d1=0;
     for(int i = 1; i <= n; i++){
-        if(s[i] == '0'){
-            len0++;
-            if(len1){
-                cnt1 += len1 * (len1 + 1) / 2;
-                len1 = 0;
-            }
-        }else if(s[i] == '1'){
-            len1++;
-            if(len0){
-                cnt0 += len0 * (len0 + 1) / 2;
-                len0 = 0;
-            }
+        if(s[i] == '1'){
+            cnt1++;
+        }else{
+            d1 += (cnt1+1)*cnt1/2;
+            cnt1=0;
         }
     }
-    cnt0 += len0 * (len0 + 1) / 2;
-    cnt1 += len1 * (len1 + 1) / 2;
-    int ans = 2 * tot - cnt0 - 2 * cnt1;
+    d1 += (cnt1+1)*cnt1/2;
+    ans += d1 * 0;
+    int cnt0=0,d0=0;
+    for(int i = 1; i <= n; i++){
+        if(s[i] == '0'){
+            cnt0++;
+        }else{
+            d0 += (cnt0+1)*cnt0/2;
+            cnt0=0;
+        }
+    }
+    d0 += (cnt0+1)*cnt0/2;    
+    ans += d0 * 1;
+    int tot = n * (n+1) / 2;
+    tot -= d0;
+    tot -= d1;
+    ans += tot * 2;
     cout << ans << endl;
 }
 signed main(){

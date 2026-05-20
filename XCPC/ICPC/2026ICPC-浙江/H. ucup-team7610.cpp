@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define rep(i, l, r) for (int i = l; i <= r; i++)
+#define pii pair<int, int>
+#define int long long
+#define pb push_back
+#define fi first
+#define se second
+#define endl '\n'
+double pi = acos(-1);
+const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
+
+void solve(){
+    string s; cin >> s;
+    if(s.size() < 12){
+        cout << "NO" << endl;
+        return;
+    }
+    string s1 = "ucup-team";
+    if(s.substr(0,9) != s1){
+        cout << "NO" << endl;
+    }else{
+        string s2 = s.substr(9);
+        if(s2[0] == '0'){
+            cout << "NO" << endl;
+        }else{
+            for(int i = 9; i < s.size(); i++){
+                if(s[i] < '0' || s[i] > '9') {
+                    cout << "NO" << endl;
+                    return;
+                }
+            }
+            if(s.size() >= 12) cout << "YES" << endl;
+            else{
+                cout << "NO" << endl;
+            }
+        }
+    }
+}
+
+signed main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);cout.tie(0);
+    int T = 1;
+    cin >> T;
+    while(T--)
+        solve();
+    return 0;
+}

@@ -93,6 +93,87 @@ struct SegTree {
         return res;
     }
 };
+struct SegTree1 {
+    struct Node {
+        int min_val; // 修改：从 sum 改为 min_val
+        int lazy;
+    };
+    int n;
+    const int inf = 1e18 + 5; // 用于最小值初始化的无穷大
+    vector<Node> tree;
+    vector<int> a;
+
+    SegTree1(int _n) {
+        n = _n;
+        tree.resize((n + 1) * 4); 
+        a.resize(n + 1);
+    }
+
+    // 修改 1：向上更新改为取两儿子的较小值
+    void push_up(int u) {
+        tree[u].min_val = min(tree[u << 1].min_val, tree[u << 1 | 1].min_val);
+    }
+
+    // 修改 2：下传标记时，儿子的最小值直接加上 tag，不需要乘以区间长度
+    void push_down(int u, int l, int r) {
+        if (tree[u].lazy != 0) { 
+            int tag = tree[u].lazy;
+            
+            tree[u << 1].min_val += tag;
+            tree[u << 1].lazy += tag;
+
+            tree[u << 1 | 1].min_val += tag;
+            tree[u << 1 | 1].lazy += tag; 
+
+            tree[u].lazy = 0;
+        }
+    }
+
+    void build(int u, int l, int r) {
+        tree[u].lazy = 0; 
+        if(l == r) {
+            tree[u].min_val = a[l]; // 修改
+            return;
+        }
+        int mid = (l + r) >> 1;
+        build(u << 1, l, mid);
+        build(u << 1 | 1, mid + 1, r);
+        push_up(u);
+    }
+
+    // 修改 3：修改覆盖区间时，当前区间的最小值直接加上 k
+    void modify(int u, int l, int r, int ql, int qr, int k) {
+        if(l >= ql && qr >= r) {
+            tree[u].min_val += k; // 与区间长度无关
+            tree[u].lazy += k;              
+            return;
+        }
+        push_down(u, l, r); 
+        
+        int mid = (l + r) >> 1;
+        if (ql <= mid) modify(u << 1, l, mid, ql, qr, k);
+        if (qr > mid) modify(u << 1 | 1, mid + 1, r, ql, qr, k);
+        
+        push_up(u); 
+    }
+
+    // 修改 4：区间查询逻辑修改
+    int query(int u, int l, int r, int ql, int qr) {
+        // 注意：原代码此处条件判断为 l >= ql && qr <= r 有一处小笔误，已修正为通用标准写法
+        if(ql <= l && r <= qr) {
+            return tree[u].min_val;
+        }
+        
+        push_down(u, l, r); 
+        int mid = (l + r) >> 1;
+        int res = inf; // 寻找最小值，初始化为无穷大
+        
+        if (ql <= mid) res = min(res, query(u << 1, l, mid, ql, qr));
+        if (qr > mid) res = min(res, query(u << 1 | 1, mid + 1, r, ql, qr));
+        
+        return res;
+    }
+};
 void solve() {
     int n, m; cin >> n >> m;
     SegTree st(n);

@@ -9,7 +9,7 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
+// 优化部分, DSU on tree(树上启发式合并)
 void solve(){
     int n,m; cin >> n >> m;
     vector<vector<int>> adj(n+1);

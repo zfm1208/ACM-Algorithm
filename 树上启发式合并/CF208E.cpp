@@ -40,7 +40,7 @@ void solve(){
         }
     };
     for(int x: gen) dfs(dfs, x,  0);
-    auto get  = [&](int u, int k) -> int {
+    auto get = [&](int u, int k) -> int {
         for(int i = 0;i < 20; i++){
             if((k >> i) & 1LL) u = up[u][i];
         }

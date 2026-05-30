@@ -19,9 +19,9 @@ void solve(){
     int ans = 0;
     int cntzz = 0 ;
     int cntzw = 0;
-    int cnta  = 0;
+    int cnta  = 0; // 记录A变成E的个数
     for(int i = 1; i <= n; i++){
-        if(S[i] == 'I'){
+        if(S[i] == 'I'){ // 必须要空桌子
             cntzz++;
             if(cntzz <= x){
                 ans++;
@@ -29,26 +29,26 @@ void solve(){
             }else{
                 cntzz--;
             }
-        }else if(S[i] == 'A'){
-            if(cntzw < cntzz * s){
+        }else if(S[i] == 'A'){ // 任意，先填充空位置，满了就单开新桌子
+            if(cntzw < cntzz * s){ // 坐位没满
                 cntzw++;
                 ans++;
-                cnta++;
+                cnta++; 
             }else{
                 cntzz++;
-                if(cntzz <= x){
+                if(cntzz <= x){ // 满了
                     ans++;
                     cntzw++;
                 }else{
                     cntzz--;
                 }
             }
-        }else{
-            if(cntzw < cntzz * s){
+        }else{ // 只能坐有人的座位
+            if(cntzw < cntzz * s){ // 座位没满
                 cntzw++;
                 ans++;
             }else{
-                if(cnta > 0 && cntzz < x){
+                if(cnta > 0 && cntzz < x){// 座位满了，看看
                     cnta--;
                     cntzz++;
                     cntzw++;

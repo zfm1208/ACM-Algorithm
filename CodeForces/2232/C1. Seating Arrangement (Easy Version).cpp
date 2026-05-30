@@ -20,12 +20,14 @@ void solve(){
     dp[0][0][0] = 0;
     for(int i = 1; i <= n; i++){
         for(int j = 0; j <= x; j++){
+            // 第i个人不选
             if(dp[i-1][j][0] != -1){
                 dp[i][j][0] = max(dp[i][j][0], dp[i-1][j][0]);
             }
             if(dp[i-1][j][1] != -1){
                 dp[i][j][0] = max(dp[i][j][0], dp[i-1][j][1]);
             } 
+            // 第i个人选了，并且s[i] = I / A，选空桌子
             if((S[i] == 'I' || S[i] == 'A') && j > 0){
                 if(dp[i-1][j-1][0] != -1){
                     dp[i][j][1] = max(dp[i][j][1], dp[i-1][j-1][0] + 1);
@@ -34,6 +36,7 @@ void solve(){
                     dp[i][j][1] = max(dp[i][j][1], dp[i-1][j-1][1] + 1);
                 }
             }
+            // 第i个人选了，并且s[i] = E / A, 选空座位
             if(S[i] == 'E' || S[i] == 'A'){
                 if(dp[i-1][j][0] != -1 && dp[i-1][j][0] < j * s){
                     dp[i][j][1] = max(dp[i][j][1], dp[i-1][j][0] + 1);

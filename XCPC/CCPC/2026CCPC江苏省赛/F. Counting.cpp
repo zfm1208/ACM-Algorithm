@@ -26,10 +26,6 @@ void solve()
         }
         mx = max(mx, b[i]);
     }
-    // 0 1 2 3 4 6
-    // mx = 6; mex = 5
-    // 0 1 2 3 4 5
-    // mx = 5; mex = 6
     if(mx > mex){
         cout << mex + 1 << endl;
         return;

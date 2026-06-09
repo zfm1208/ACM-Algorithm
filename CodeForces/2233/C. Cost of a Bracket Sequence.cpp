@@ -10,7 +10,11 @@ using namespace std;
 #define endl '\n'
 double pi = acos(-1);
 const int N = 1e6, mod = 1e9+7, inf = 1e18 + 5;
-
+/*
+    pre[i] : 前缀'('个数
+    suf[i] : 后缀')'个数
+    括号序列里最大的括号匹配个数为 min(pre[i] + suf[i+1])
+*/
 void solve(){
     int n,k; cin >> n >> k;
     string s; cin >> s;

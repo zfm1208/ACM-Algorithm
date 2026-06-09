@@ -27,7 +27,6 @@ void solve(){
     } else if(n % 4 == 1){
         int op = 0;
         rep(i, 0, 19) ans.pb(a1[i] + op);
-        
         op += 5;
         while(op < n){
             rep(i, 0, 15) ans.pb(a0[i] + op);

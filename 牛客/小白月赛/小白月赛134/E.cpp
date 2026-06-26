@@ -42,7 +42,7 @@ void solve(){
     while(!pq.empty()){
         auto [d,u] = pq.top();
         pq.pop();
-        if(d != dist[u]){
+        if(d > dist[u]){
             continue;
         }
         for(auto [v, i] : adj[u]){
